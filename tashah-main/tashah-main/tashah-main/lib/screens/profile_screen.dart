@@ -24,9 +24,10 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         title: Text(
-          'Events : ',
+          'Profile : ',
           style: GoogleFonts.lato(
             color: const Color.fromARGB(255, 226, 205, 255),
             fontSize: 24,
@@ -37,42 +38,35 @@ class ProfileScreen extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 80, 0, 0),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 141, 23, 14),
-              Color.fromARGB(255, 223, 161, 153)
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 70),
-        child: Column(
-          children: [
-            const CircleAvatar(
-              radius: 70,
-              backgroundImage: AssetImage('assets/images/prof_img.jpg'),
+          padding: const EdgeInsets.symmetric(vertical: 70),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const CircleAvatar(
+                  radius: 70,
+                  backgroundImage: AssetImage('assets/images/prof_img.jpg'),
+                ),
+                const SizedBox(height: 20),
+                itemProfile('Name : ', 'UserName', CupertinoIcons.person),
+                const SizedBox(height: 10),
+                itemProfile(
+                    'Phone : ', 'UserPhoneNumber', CupertinoIcons.phone),
+                const SizedBox(height: 10),
+                itemProfile(
+                    'Address : ', 'UserAdress', CupertinoIcons.location),
+                const SizedBox(height: 10),
+                itemProfile('Email: ', 'UserEmail', CupertinoIcons.mail),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: firebaseUIButton(context, 'Edit profile', () {},
+                      Color.fromRGBO(72, 6, 7, 1)),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            itemProfile('Name : ', 'UserName', CupertinoIcons.person),
-            const SizedBox(height: 10),
-            itemProfile('Phone : ', 'UserPhoneNumber', CupertinoIcons.phone),
-            const SizedBox(height: 10),
-            itemProfile('Address : ', 'UserAdress', CupertinoIcons.location),
-            const SizedBox(height: 10),
-            itemProfile('Email: ', 'UserEmail', CupertinoIcons.mail),
-            const SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: firebaseUIButton(
-                  context, 'Edit profile', () {}, Color.fromRGBO(72, 6, 7, 1)),
-            ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 

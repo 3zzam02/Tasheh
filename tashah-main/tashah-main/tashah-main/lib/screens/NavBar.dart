@@ -61,7 +61,7 @@ class _MyButtomNavBarState extends State<NavBar> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person_outline), label: "Profile"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.person_outline), label: "My Events"),
+                    icon: Icon(Icons.add_task), label: "My Events"),
               ]),
         ),
       ),

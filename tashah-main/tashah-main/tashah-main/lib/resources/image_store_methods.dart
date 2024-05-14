@@ -19,16 +19,21 @@ class ImageStoreMethods {
     return downloadUrl;
   }
 
-  Future<String> uploadPost(String description, Uint8List file) async {
+  Future<String> uploadPost(String title, String description, String location,
+      dynamic maxattendees, Uint8List file) async {
     String res = 'Some Error Occurred';
     try {
       String photoUrl = await imageToStorage(file);
       String postId = const Uuid().v1();
+
       Post post = Post(
         description: description,
         postId: postId,
         datePublished: DateTime.now(),
         postUrl: photoUrl,
+        title: title,
+        location: location,
+        maxattendees: maxattendees,
       );
       _firestore.collection('posts').doc(postId).set(
             post.toJson(),

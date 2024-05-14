@@ -10,8 +10,66 @@ class EventPage extends StatefulWidget {
 }
 
 class _EventPageState extends State<EventPage> {
+  
   @override
   Widget build(BuildContext context) {
+    Widget EventBox = SingleChildScrollView(
+      child: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return ListView(
+            padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 30),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: snapshot.data!.docs.map((DocumentSnapshot document) {
+              Map<String, dynamic> data =
+                  document.data() as Map<String, dynamic>;
+              return Column(children: [
+                const Padding(padding: EdgeInsets.all(30)),
+                Column(
+                  children: [
+                    Image.network(
+                      data['postUrl'],
+                      cacheHeight: 150,
+                      cacheWidth: 150,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(data['title']),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(data['location']),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    
+                    Text('Max Number of Attendees : ${data['maxattendees']}'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    OutlinedButton(
+                      onPressed: () {},
+                      child: const Text('View'),
+                    )
+                  ],
+                )
+              ]
+                  // Add more widgets to display other data as needed
+                  );
+            }).toList(),
+          );
+        },
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -25,7 +83,8 @@ class _EventPageState extends State<EventPage> {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 80, 0, 0),
       ),
-      body: Container(alignment: Alignment.topCenter,
+      body: Container(
+        alignment: Alignment.topCenter,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -36,43 +95,19 @@ class _EventPageState extends State<EventPage> {
             end: Alignment.bottomRight,
           ),
         ),
-        
-        child: SingleChildScrollView(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              return ListView(padding: const EdgeInsets.symmetric(vertical: 50 , horizontal: 10),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                  Map<String, dynamic> data =
-                      document.data() as Map<String, dynamic>;
-                  return ListTile(contentPadding: const EdgeInsets.symmetric(vertical: 25),
-                      leading: Image.network(
-                      data['postUrl'],
-                      cacheHeight: 150,
-                      cacheWidth: 150,
-                    ),
-                    title: Text(data['description']),
-                    subtitle: Text(data['postId']),
-
-                    // Add more widgets to display other data as needed
-                  );
-                }).toList(),
-              );
-            },
-          ),
-        ),
+        child: EventBox,
       ),
     );
   }
 }
+// void checkmaxattendees (){
+  // if (data['maxattendees'] == null){
+                    //   SnackBar
+                    // } 
+                    // else
+                    // Text('Max Number of Attendees : ${data['maxattendees']}'), 
+//}
+                    
 
 
 // import 'package:eventro/pages/event/event_details.dart';
