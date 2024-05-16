@@ -1,22 +1,20 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class EventPage extends StatefulWidget {
-  const EventPage({super.key});
+class MyEventPage extends StatefulWidget {
+  const MyEventPage({super.key});
 
   @override
-  State<EventPage> createState() => _EventPageState();
+  State<MyEventPage> createState() => _MyEventPageState();
 }
 
-class _EventPageState extends State<EventPage> {
+class _MyEventPageState extends State<MyEventPage> {
   @override
   Widget build(BuildContext context) {
     Widget EventBox = SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
-      // FirebaseFirestore.instance.collection('posts').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots(),for own events
       stream: FirebaseFirestore.instance.collection('posts').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -125,7 +123,7 @@ class _EventPageState extends State<EventPage> {
           gradient: LinearGradient(
             colors: [
               Color.fromARGB(255, 155, 155, 155),
-              Color.fromARGB(255, 202, 202, 202)
+              Color.fromARGB(255, 202, 202, 202),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -136,3 +134,109 @@ class _EventPageState extends State<EventPage> {
     );
   }
 }
+// void checkmaxattendees (){
+  // if (data['maxattendees'] == null){
+                    //   SnackBar
+                    // } 
+                    // else
+                    // Text('Max Number of Attendees : ${data['maxattendees']}'), 
+//}
+                    
+
+
+// import 'package:eventro/pages/event/event_details.dart';
+// import 'package:flutter/material.dart';
+
+// class CreatedEventTile extends StatelessWidget {
+//   final String imageUrl;
+//   final String eventName;
+//   final String eventID;
+//   final String status;
+//   final String rejectionReason;
+//   final VoidCallback onDelete;
+//   final IconData icon;
+
+//   const CreatedEventTile(
+//       {super.key,
+//       required this.imageUrl,
+//       required this.eventName,
+//       required this.status,
+//       required this.onDelete,
+//       required this.eventID,
+//       required this.icon,
+//       this.rejectionReason = ''});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: () {
+//         // Navigate to the EventDetails page when the card is tapped
+//         Navigator.push(
+//           context,
+//           MaterialPageRoute(
+//             builder: (context) => EventDetails(eventId: eventID),
+//           ),
+//         );
+//       },
+//       child: Card(
+//         child: ListTile(
+//           leading: imageUrl.isNotEmpty
+//               ? CircleAvatar(
+//                   backgroundImage: NetworkImage(imageUrl),
+//                   radius: 30,
+//                 )
+//               : const Placeholder(), // Placeholder for image if imageUrl is empty
+//           title: Text(eventName),
+//           subtitle: status == 'rejected'
+//               ? Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text('Status: $status'),
+//                     const SizedBox(height: 5),
+//                     Text(
+//                       'Rejection Reason: $rejectionReason',
+//                       style: const TextStyle(color: Colors.red),
+//                     ),
+//                   ],
+//                 )
+//               : Text('Status: $status'),
+//           trailing: Container(
+//             decoration: const BoxDecoration(
+//               color: Color(0xffEC6408),
+//               borderRadius: BorderRadius.only(
+//                 topLeft: Radius.circular(12),
+//                 bottomRight: Radius.circular(12),
+//               ),
+//             ),
+//             child: IconButton(
+//               onPressed: onDelete,
+//               icon: Icon(
+//                 icon,
+//                 color: Colors.black,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
+//   void _updateEventStatus(int price,String s) {
+//     FirebaseFirestore.instance
+//         .collection('your collection')
+//         .doc()
+//         .update({
+//       'price': price,
+//       'rejectionReason':
+//           s, // Save the rejection reason in Firestore
+//     });
+//   }
+// 
+
+// await FirebaseFirestore.instance
+//             .collection('your collection')
+//             .doc(id)
+//             .delete();

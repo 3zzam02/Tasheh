@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PurchaseFailed extends StatelessWidget {
-  const PurchaseFailed(this.startShop,{super.key});
+  const PurchaseFailed(this.startShop, {super.key});
   final void Function() startShop;
 
   @override
@@ -17,7 +17,7 @@ class PurchaseFailed extends StatelessWidget {
         Text(
           'Purchase Failed !',
           style: GoogleFonts.lato(
-            color: const Color.fromARGB(255, 226, 205, 255),
+            color: const Color.fromARGB(255, 255, 0, 0),
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
@@ -36,9 +36,12 @@ class PurchaseFailed extends StatelessWidget {
         OutlinedButton.icon(
             onPressed: startShop,
             style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.white,
+              backgroundColor: const Color.fromARGB(255, 161, 39, 39),
             ),
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Color.fromARGB(255, 226, 205, 255),
+            ),
             label: Text(
               'Go back',
               style: GoogleFonts.lato(

@@ -130,8 +130,8 @@ class _up_screenState extends State<up_screen> {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color.fromARGB(255, 141, 23, 14),
-                    Color.fromARGB(255, 223, 161, 153)
+                    Color.fromARGB(255, 155, 155, 155),
+                    Color.fromARGB(255, 202, 202, 202),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -144,7 +144,7 @@ class _up_screenState extends State<up_screen> {
                     IconButton(
                       icon: const Icon(
                         Icons.camera_alt,
-                        color: Color.fromRGBO(243, 243, 243, 0.514),
+                        color: Color.fromRGBO(170, 50, 50, 0.514),
                       ),
                       onPressed: () => _imageSelect(context),
                       iconSize: 150,
@@ -153,7 +153,7 @@ class _up_screenState extends State<up_screen> {
                       'Add Event',
                       style: TextStyle(
                           fontSize: 30.0,
-                          color: Color.fromRGBO(240, 240, 240, 1),
+                          color: Color.fromRGBO(170, 50, 50, 0.514),
                           fontWeight: FontWeight.bold),
                     ),
                   ],

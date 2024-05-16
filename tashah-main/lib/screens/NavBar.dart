@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tasheh/screens/events_page.dart';
+import 'package:tasheh/screens/myeventspage.dart';
 import 'package:tasheh/screens/profile_screen.dart';
 import 'package:tasheh/screens/shop.dart';
 import 'package:tasheh/screens/upload_screen.dart';
@@ -21,6 +22,7 @@ class _MyButtomNavBarState extends State<NavBar> {
     Shop(),
     profile_screen(),
     Uploaduserinfo(),
+    MyEventPage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,9 @@ class _MyButtomNavBarState extends State<NavBar> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person_outline), label: "Profile"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.add_task), label: "My Events"),
+                    icon: Icon(Icons.add_task), label: "AddUserInfo"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.event), label: "My Events"),
               ]),
         ),
       ),

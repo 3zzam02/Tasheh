@@ -25,6 +25,7 @@ class Post {
         "title": title,
         "location": location,
         'maxattendees': maxattendees,
+        
       };
   Post.fromJson(Map<String, dynamic> Json) {
     postId = Json['postId'];
@@ -37,10 +38,4 @@ class Post {
   }
 }
 
-// Stream<int> _getPendingEventCountStream() {
-//     return FirebaseFirestore.instance
-//         .collection('eventsCollection')
-//         .where('status', isEqualTo: 'pending')
-//         .snapshots()
-//         .map((snapshot) => snapshot.size);
-//   }
+

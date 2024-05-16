@@ -1,24 +1,29 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_editing_controller/number_editing_controller.dart';
-import 'package:tasheh/screens/firebaseeventslist.dart';
 
-class Uploaduserinfo extends StatefulWidget {
-  const Uploaduserinfo({super.key});
+class Edituserinfo extends StatefulWidget {
+  const Edituserinfo(
+      {super.key,
+      required this.docid,
+      required this.oldname,
+      required this.address,
+      required this.phonenumber});
+  final String docid;
+  final String oldname;
+  final String address;
+  final num phonenumber;
 
   @override
-  State<StatefulWidget> createState() {
-    return _Uploaduserinfo();
-  }
+  State<StatefulWidget> createState() => _Edituserinfo();
 }
 
-class _Uploaduserinfo extends State<Uploaduserinfo> {
+class _Edituserinfo extends State<Edituserinfo> {
+  bool isloading = true;
   GlobalKey<FormState> formState = GlobalKey<FormState>();
   TextEditingController fullName = TextEditingController();
   TextEditingController address = TextEditingController();
@@ -27,16 +32,31 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
   NumberEditingTextController balance = NumberEditingTextController.integer();
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  adduserinfo() async {
-    users.add({
-      'Email': FirebaseAuth.instance.currentUser!.email,
-      'Userid': FirebaseAuth.instance.currentUser!.uid,
-      'full name': fullName.text,
-      'address': address.text,
-      'phone number': phoneNumber.number,
-      'balance': balance.number = 0,
-    });
-    Navigator.of(context).pushNamed('NavBar');
+
+  edituserinfo() async {
+    if (formState.currentState!.validate()) {
+      try {
+        users.doc(widget.docid).update({
+          'full name': fullName.text,
+          'address': address.text,
+          'phone number': phoneNumber.number,
+        });
+        Navigator.of(context)
+            .pushNamed('Shop_Page');
+      } catch (e) {
+        isloading = false;
+        setState(() {});
+        print('Error $e');
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fullName.text = widget.oldname;
+    address.text = widget.address;
+    phoneNumber.number = widget.phonenumber;
   }
 
   @override
@@ -44,7 +64,7 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Add User Info',
+          'Edit User Info',
           style: GoogleFonts.lato(
             color: const Color.fromARGB(255, 226, 205, 255),
             fontSize: 24,
@@ -72,6 +92,13 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
               const SizedBox(
                 height: 25,
               ),
+              const Text(
+                'Edit Full Name  :',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
               TextField(
                 controller: fullName,
                 decoration: InputDecoration(
@@ -81,11 +108,18 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
                   contentPadding: const EdgeInsets.all(10),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Your Full Name  : (required)',
+                  hintText: 'Full Name  :',
                 ),
               ),
               const SizedBox(
                 height: 20,
+              ),
+              const Text(
+                'Edit Address :',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 5,
               ),
               TextField(
                 controller: address,
@@ -96,11 +130,18 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
                   contentPadding: const EdgeInsets.all(10),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Your Address : (required)',
+                  hintText: 'Address :',
                 ),
               ),
               const SizedBox(
                 height: 20,
+              ),
+              const Text(
+                'Edit Phone Number :',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 5,
               ),
               TextField(
                 controller: phoneNumber,
@@ -111,7 +152,7 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
                   contentPadding: const EdgeInsets.all(10),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Your Phone Number :+962 (required)',
+                  hintText: 'Phone Number :+962',
                 ),
               ),
               const SizedBox(
@@ -119,9 +160,9 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
               ),
               OutlinedButton(
                 style: OutlinedButton.styleFrom(backgroundColor: Colors.white),
-                onPressed: adduserinfo,
+                onPressed: edituserinfo,
                 child: const Text(
-                  'Add User Info',
+                  'Edit',
                   style: TextStyle(
                       color: Color.fromARGB(255, 0, 0, 0),
                       fontWeight: FontWeight.bold),

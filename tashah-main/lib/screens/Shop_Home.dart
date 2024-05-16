@@ -15,6 +15,7 @@ class Shop_Page extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
       child: Center(
         child: SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 50),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -22,9 +23,9 @@ class Shop_Page extends StatelessWidget {
               OutlinedButton.icon(
                 onPressed: startShop,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
+                  backgroundColor: const Color.fromARGB(255, 155, 82, 82),
                 ),
-                icon: const Icon(Icons.add_card),
+                icon: const Icon(Icons.add_card,color: Colors.white,),
                 label: Text(
                   'Get Coupon                                      Price = 500',
                   style: GoogleFonts.lato(
@@ -40,9 +41,9 @@ class Shop_Page extends StatelessWidget {
               OutlinedButton.icon(
                 onPressed: startShop,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
+                  backgroundColor: const Color.fromARGB(255, 155, 82, 82),
                 ),
-                icon: const Icon(Icons.add_card),
+                icon: const Icon(Icons.add_card,color: Colors.white,),
                 label: Text(
                   'Get Coupon                                     Price = 500',
                   softWrap: true,
@@ -56,25 +57,25 @@ class Shop_Page extends StatelessWidget {
               ),
               const CouponForm(copountitle: '10% off Electronics'),
               ButtonTheme(
-          minWidth: 50.0,
-          height: 10.0,
-              child : OutlinedButton.icon(
-                onPressed: startShop,
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                ),
-                icon: const Icon(Icons.add_card),
-                label: Text(
-                  'Get Coupon                                     Price = 700',
-                  softWrap: true,
-                  style: GoogleFonts.lato(
-                    color: const Color.fromARGB(255, 226, 205, 255),
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                minWidth: 50.0,
+                height: 10.0,
+                child: OutlinedButton.icon(
+                  onPressed: startShop,
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 155, 82, 82),
                   ),
-                  textAlign: TextAlign.center,
+                  icon: const Icon(Icons.add_card,color: Colors.white,),
+                  label: Text(
+                    'Get Coupon                                     Price = 700',
+                    softWrap: true,
+                    style: GoogleFonts.lato(
+                      color: const Color.fromARGB(255, 226, 205, 255),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
               )
             ],
           ),
