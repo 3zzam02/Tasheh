@@ -7,15 +7,19 @@ import '../reusable_widgets/couponform.dart';
 const startallignment = Alignment.topLeft;
 const endallignment = Alignment.bottomRight;
 
-class Shop_Page extends StatelessWidget {
+class Shop_Page extends StatefulWidget {
   const Shop_Page(this.startShop, {super.key});
-  final void Function() startShop;
+  final void Function(int, num) startShop;
 
+  @override
+  State<Shop_Page> createState() => _Shop_PageState();
+}
+
+class _Shop_PageState extends State<Shop_Page> {
   @override
   Widget build(context) {
     Widget EventBox = SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
-      // FirebaseFirestore.instance.collection('posts').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots(),for own events
       stream: FirebaseFirestore.instance.collection('coupon').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -28,7 +32,9 @@ class Shop_Page extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 100),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          children: snapshot.data!.docs.map((DocumentSnapshot document) {
+          children: snapshot.data!.docs.asMap().entries.map((entry) {
+            int index = entry.key;
+            DocumentSnapshot document = entry.value;
             Map<String, dynamic> data = document.data() as Map<String, dynamic>;
             return Column(children: [
               const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
@@ -40,10 +46,9 @@ class Shop_Page extends StatelessWidget {
                   ),
                 ),
                 child: Container(
-                  padding:
-                      const EdgeInsets.all(10),
-                      width: 350,
-                      height: 320,
+                  padding: const EdgeInsets.all(10),
+                  width: 350,
+                  height: 320,
                   child: Column(
                     children: [
                       Card(
@@ -70,7 +75,7 @@ class Shop_Page extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text('price : ${data['price']}',
+                      Text('Price: ${data['price']}',
                           style: GoogleFonts.lato(
                             color: Colors.white,
                             fontSize: 15,
@@ -81,9 +86,9 @@ class Shop_Page extends StatelessWidget {
                         height: 10,
                       ),
                       OutlinedButton(
-                        onPressed: startShop,
-                        child: const Text('Get Coupon',style: TextStyle(color: Colors.white),),
-                        
+                        onPressed: () => widget.startShop(index, data['price']),
+                        child: const Text('Get Coupon',
+                            style: TextStyle(color: Colors.white)),
                       ),
                       const SizedBox(
                         height: 10,
@@ -92,8 +97,6 @@ class Shop_Page extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // Add more widgets to display other data as needed
             ]);
           }).toList(),
         );

@@ -35,12 +35,12 @@ class _Edituserinfo extends State<Edituserinfo> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   edituserinfo() async {
-    users.doc(FirebaseAuth.instance.currentUser!.uid).update({
+    String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
+    users.doc(uid).update({
       'full name': fullName.text,
       'address': address.text,
       'phone number': phoneNumber.number,
     });
-    Navigator.of(context).pushNamed('Shop_Page');
 
     isloading = false;
     setState(() {});

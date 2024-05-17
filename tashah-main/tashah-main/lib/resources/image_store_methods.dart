@@ -35,7 +35,7 @@ class ImageStoreMethods {
         title: title,
         location: location,
         maxattendees: maxattendees,
-        Userid: FirebaseAuth.instance.currentUser!.uid,
+        Userid:  FirebaseAuth.instance.currentUser!.uid,
       );
       _firestore.collection('posts').doc(postId).set(
             post.toJson(),

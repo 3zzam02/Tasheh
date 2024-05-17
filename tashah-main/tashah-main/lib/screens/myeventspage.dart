@@ -4,14 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class EventPage extends StatefulWidget {
-  const EventPage({super.key});
+class MyEventPage extends StatefulWidget {
+  const MyEventPage({super.key});
 
   @override
-  State<EventPage> createState() => _EventPageState();
+  State<MyEventPage> createState() => _MyEventPage();
 }
 
-class _EventPageState extends State<EventPage> {
+class _MyEventPage extends State<MyEventPage> {
   @override
   Widget build(BuildContext context) {
     Widget EventBox = SingleChildScrollView(

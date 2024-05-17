@@ -8,6 +8,7 @@ import 'package:tasheh/screens/NavBar.dart';
 //import 'profile_screen.dart';
 import '../reusable_widgets/reusable_widget.dart';
 import '../utils/color_utils.dart';
+import 'uploaduserinfo.dart';
 //import 'home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -84,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       .then((value) {
                     print("Created New Account");
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => NavBar()));
+                        MaterialPageRoute(builder: (context) => Uploaduserinfo()));
                   }).onError((error, stackTrace) {
                     AwesomeDialog(
                       context: context,

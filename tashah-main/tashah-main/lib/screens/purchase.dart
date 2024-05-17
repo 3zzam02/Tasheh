@@ -23,13 +23,19 @@ class _Purchase extends State<Purchase> {
   Widget build(context) {
     Widget? screenwidget;
     if (screenwidget == PurchaseSuccess(switchScreen1)) {
-      screenwidget = Shop_Page(donth);
+      screenwidget = Shop_Page((p0, p1) {
+        
+      },);
     }
     if (activescreen == 2) {
-      screenwidget = Shop_Page(donth);
+      screenwidget = Shop_Page((p0, p1) {
+        
+      },);
     }
     if (screenwidget == PurchaseFailed(switchScreen1)) {
-      screenwidget = Shop_Page(donth);
+      screenwidget = Shop_Page((p0, p1) {
+        
+      },);
     }
 
     

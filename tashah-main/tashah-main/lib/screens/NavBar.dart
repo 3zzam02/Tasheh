@@ -22,7 +22,6 @@ class _MyButtomNavBarState extends State<NavBar> {
     up_screen(),
     Shop(),
     profile_screen(),
-    Uploaduserinfo(),
     MyEventPage(),
     UploadCoupon(),
   ];
@@ -63,8 +62,6 @@ class _MyButtomNavBarState extends State<NavBar> {
                 BottomNavigationBarItem(icon: Icon(Icons.shop), label: "Shop"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person_outline), label: "Profile"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.add_task), label: "AddUserInfo"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.event), label: "My Events"),
                 BottomNavigationBarItem(

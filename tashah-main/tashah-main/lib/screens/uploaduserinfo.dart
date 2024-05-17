@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_editing_controller/number_editing_controller.dart';
+import 'package:tasheh/screens/NavBar.dart';
 import 'package:tasheh/screens/firebaseeventslist.dart';
 
 class Uploaduserinfo extends StatefulWidget {
@@ -28,7 +29,8 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   adduserinfo() async {
-    users.add({
+    String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
+    users.doc(uid).set({
       'Email': FirebaseAuth.instance.currentUser!.email,
       'Userid': FirebaseAuth.instance.currentUser!.uid,
       'full name': fullName.text,
@@ -36,7 +38,8 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
       'phone number': phoneNumber.number,
       'balance': balance.number = 0,
     });
-    Navigator.of(context).pushNamed('NavBar');
+    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => NavBar()));
   }
 
   @override

@@ -1,20 +1,23 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasheh/screens/viewsingleevent.dart';
 
-class MyEventPage extends StatefulWidget {
-  const MyEventPage({super.key});
+class EventPage extends StatefulWidget {
+  const EventPage({super.key});
 
   @override
-  State<MyEventPage> createState() => _MyEventPageState();
+  State<EventPage> createState() => _EventPageState();
 }
 
-class _MyEventPageState extends State<MyEventPage> {
+class _EventPageState extends State<EventPage> {
   @override
   Widget build(BuildContext context) {
     Widget EventBox = SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
+      // FirebaseFirestore.instance.collection('posts').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots(),for own events
       stream: FirebaseFirestore.instance.collection('posts').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -32,15 +35,16 @@ class _MyEventPageState extends State<MyEventPage> {
             return Column(children: [
               const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
               Card(
-                color: Colors.amber,
+                color: Color.fromARGB(255, 102, 19, 19),
                 shape: const RoundedRectangleBorder(
                   side: BorderSide(
                     color: Color.fromARGB(255, 0, 0, 0),
                   ),
                 ),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 100),
+                  padding: EdgeInsets.all(10),
+                  width: 350,
+                  height: 350,
                   child: Column(
                     children: [
                       Card(
@@ -60,7 +64,7 @@ class _MyEventPageState extends State<MyEventPage> {
                       ),
                       Text(data['title'],
                           style: GoogleFonts.lato(
-                            color: const Color.fromARGB(255, 6, 1, 14),
+                            color: Colors.white,
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
                           ),
@@ -70,7 +74,7 @@ class _MyEventPageState extends State<MyEventPage> {
                       ),
                       Text(data['location'],
                           style: GoogleFonts.lato(
-                            color: const Color.fromARGB(255, 6, 1, 14),
+                            color: Colors.white,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
@@ -79,7 +83,16 @@ class _MyEventPageState extends State<MyEventPage> {
                         height: 10,
                       ),
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () =>
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SingleEventPage(
+                                postId: data['postId'],
+                              ),
+                            ),
+                          )
+                        ,
                         child: const Text('View'),
                       ),
                       const SizedBox(
@@ -87,7 +100,7 @@ class _MyEventPageState extends State<MyEventPage> {
                       ),
                       Text('Max Attendees : ${data['maxattendees']}',
                           style: GoogleFonts.lato(
-                            color: const Color.fromARGB(255, 6, 1, 14),
+                            color: Colors.white,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
@@ -123,7 +136,7 @@ class _MyEventPageState extends State<MyEventPage> {
           gradient: LinearGradient(
             colors: [
               Color.fromARGB(255, 155, 155, 155),
-              Color.fromARGB(255, 202, 202, 202),
+              Color.fromARGB(255, 202, 202, 202)
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -134,109 +147,3 @@ class _MyEventPageState extends State<MyEventPage> {
     );
   }
 }
-// void checkmaxattendees (){
-  // if (data['maxattendees'] == null){
-                    //   SnackBar
-                    // } 
-                    // else
-                    // Text('Max Number of Attendees : ${data['maxattendees']}'), 
-//}
-                    
-
-
-// import 'package:eventro/pages/event/event_details.dart';
-// import 'package:flutter/material.dart';
-
-// class CreatedEventTile extends StatelessWidget {
-//   final String imageUrl;
-//   final String eventName;
-//   final String eventID;
-//   final String status;
-//   final String rejectionReason;
-//   final VoidCallback onDelete;
-//   final IconData icon;
-
-//   const CreatedEventTile(
-//       {super.key,
-//       required this.imageUrl,
-//       required this.eventName,
-//       required this.status,
-//       required this.onDelete,
-//       required this.eventID,
-//       required this.icon,
-//       this.rejectionReason = ''});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: () {
-//         // Navigate to the EventDetails page when the card is tapped
-//         Navigator.push(
-//           context,
-//           MaterialPageRoute(
-//             builder: (context) => EventDetails(eventId: eventID),
-//           ),
-//         );
-//       },
-//       child: Card(
-//         child: ListTile(
-//           leading: imageUrl.isNotEmpty
-//               ? CircleAvatar(
-//                   backgroundImage: NetworkImage(imageUrl),
-//                   radius: 30,
-//                 )
-//               : const Placeholder(), // Placeholder for image if imageUrl is empty
-//           title: Text(eventName),
-//           subtitle: status == 'rejected'
-//               ? Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text('Status: $status'),
-//                     const SizedBox(height: 5),
-//                     Text(
-//                       'Rejection Reason: $rejectionReason',
-//                       style: const TextStyle(color: Colors.red),
-//                     ),
-//                   ],
-//                 )
-//               : Text('Status: $status'),
-//           trailing: Container(
-//             decoration: const BoxDecoration(
-//               color: Color(0xffEC6408),
-//               borderRadius: BorderRadius.only(
-//                 topLeft: Radius.circular(12),
-//                 bottomRight: Radius.circular(12),
-//               ),
-//             ),
-//             child: IconButton(
-//               onPressed: onDelete,
-//               icon: Icon(
-//                 icon,
-//                 color: Colors.black,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
-
-//   void _updateEventStatus(int price,String s) {
-//     FirebaseFirestore.instance
-//         .collection('your collection')
-//         .doc()
-//         .update({
-//       'price': price,
-//       'rejectionReason':
-//           s, // Save the rejection reason in Firestore
-//     });
-//   }
-// 
-
-// await FirebaseFirestore.instance
-//             .collection('your collection')
-//             .doc(id)
-//             .delete();

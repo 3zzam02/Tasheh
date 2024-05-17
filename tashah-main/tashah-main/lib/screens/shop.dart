@@ -20,17 +20,26 @@ class Shop extends StatefulWidget {
 }
 
 List<QueryDocumentSnapshot> data = [];
+List<QueryDocumentSnapshot> data1 = [];
 
 class _ShopState extends State<Shop> {
   GlobalKey<FormState> formState = GlobalKey<FormState>();
 
   int activescreen = 1;
-  int i = data.length;
+  int i = 0;
   num currentbalance = 0;
-  num coupon1 = 500;
-  num coupon2 = 700;
+  num couponprice = 0;
 
   bool isloading = true;
+
+  getCouponInfo() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('coupon').get();
+    data1.addAll(querySnapshot.docs);
+    setState(() {
+      isloading = false;
+    });
+  }
 
   getUserInfo() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -38,16 +47,18 @@ class _ShopState extends State<Shop> {
         .where("Userid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
     data.addAll(querySnapshot.docs);
-    isloading = false;
-    setState(() {});
+    setState(() {
+      isloading = false;
+    });
   }
 
   @override
   void initState() {
+    super.initState();
     getUserInfo();
+    getCouponInfo();
+    _getBalanceStream();
   }
-
-  // variables for purchase proccesss , should be replaced with instances from data base
 
   void donth1() {
     setState(() {
@@ -55,53 +66,74 @@ class _ShopState extends State<Shop> {
     });
   }
 
+  Stream<int> _getBalanceStream() {
+    final String uid = FirebaseAuth.instance.currentUser!.uid;
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .snapshots()
+        .map((snapshot) => snapshot.data()?['balance'] ?? 0);
+  }
+      
   void _updateEventStatus(num balance) {
+    String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
+     
     FirebaseFirestore.instance
         .collection('users')
-        .doc(data[i]['Userid'])
+        .doc(uid)
         .update({'balance': balance});
   }
 
-  void switchScreen() {
-    setState(() {
-      currentbalance = data[i]['balance'];
-      if (currentbalance - coupon1 >= 0) {
-        currentbalance -= coupon1;
-        _updateEventStatus(currentbalance-coupon1);
+  void switchScreen(int couponIndex, num couponPrice) {
+  setState(() {
+    if (currentbalance - couponPrice >= 0) {
+      currentbalance -= couponPrice;
+      _updateEventStatus(currentbalance);
+      activescreen = 2;
+    } else {
+      activescreen = 3;
+    }
+  });
+}
 
-        activescreen = 2;
-      } else if (currentbalance - coupon1 < 0) {
-        activescreen = 3;
-      }
-    });
-  }
 
   @override
   Widget build(context) {
-    Widget screenwidget = Shop_Page(switchScreen);
+    Widget screenwidget = Shop_Page((int couponIndex, num couponPrice) {
+      switchScreen(couponIndex, couponPrice);
+    });
 
     if (activescreen == 2) {
       screenwidget = PurchaseSuccess(donth1);
-    }
-    if (activescreen == 3) {
+    } else if (activescreen == 3) {
       screenwidget = PurchaseFailed(donth1);
     }
 
-    // Conditions for purchasing copouns
-
-    return isloading == true
+    return isloading
         ? const Center(
             child: CircularProgressIndicator(),
           )
         : MaterialApp(
             home: Scaffold(
             appBar: AppBar(
-              title: Text('Current Balance : ${data[i]['balance']}',
-                  style: GoogleFonts.lato(
-                    color: const Color.fromARGB(255, 226, 205, 255),
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  )),
+              centerTitle: true,
+              title: StreamBuilder<int>(
+                stream: _getBalanceStream(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  final balance = snapshot.data;
+                  return Text(
+                    'Balance: $balance',
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  );
+                },
+              ),
               backgroundColor: const Color.fromARGB(255, 80, 0, 0),
             ),
             body: Container(

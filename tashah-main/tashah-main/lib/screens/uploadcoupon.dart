@@ -36,7 +36,7 @@ class _UploadCoupon extends State<UploadCoupon> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Add User Info',
+          'Add Coupon',
           style: GoogleFonts.lato(
             color: const Color.fromARGB(255, 226, 205, 255),
             fontSize: 24,
