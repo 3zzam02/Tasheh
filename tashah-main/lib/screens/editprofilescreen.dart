@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,21 +35,15 @@ class _Edituserinfo extends State<Edituserinfo> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   edituserinfo() async {
-    if (formState.currentState!.validate()) {
-      try {
-        users.doc(widget.docid).update({
-          'full name': fullName.text,
-          'address': address.text,
-          'phone number': phoneNumber.number,
-        });
-        Navigator.of(context)
-            .pushNamed('Shop_Page');
-      } catch (e) {
-        isloading = false;
-        setState(() {});
-        print('Error $e');
-      }
-    }
+    users.doc(FirebaseAuth.instance.currentUser!.uid).update({
+      'full name': fullName.text,
+      'address': address.text,
+      'phone number': phoneNumber.number,
+    });
+    Navigator.of(context).pushNamed('Shop_Page');
+
+    isloading = false;
+    setState(() {});
   }
 
   @override

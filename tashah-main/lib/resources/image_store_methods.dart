@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tasheh/screens/post.dart';
 import 'package:uuid/uuid.dart';
@@ -34,6 +35,7 @@ class ImageStoreMethods {
         title: title,
         location: location,
         maxattendees: maxattendees,
+        Userid: FirebaseAuth.instance.currentUser!.uid,
       );
       _firestore.collection('posts').doc(postId).set(
             post.toJson(),

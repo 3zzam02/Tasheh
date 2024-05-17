@@ -23,10 +23,10 @@ List<QueryDocumentSnapshot> data = [];
 
 class _ShopState extends State<Shop> {
   GlobalKey<FormState> formState = GlobalKey<FormState>();
-  String docid = '';
+
   int activescreen = 1;
   int i = data.length;
-  num currentbalance = data[0]['balance'];
+  num currentbalance = 0;
   num coupon1 = 500;
   num coupon2 = 700;
 
@@ -58,7 +58,7 @@ class _ShopState extends State<Shop> {
   void _updateEventStatus(num balance) {
     FirebaseFirestore.instance
         .collection('users')
-        .doc()
+        .doc(data[i]['Userid'])
         .update({'balance': balance});
   }
 
@@ -67,10 +67,7 @@ class _ShopState extends State<Shop> {
       currentbalance = data[i]['balance'];
       if (currentbalance - coupon1 >= 0) {
         currentbalance -= coupon1;
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc(data[0]['Userid'])
-            .update({'balance': currentbalance});
+        _updateEventStatus(currentbalance-coupon1);
 
         activescreen = 2;
       } else if (currentbalance - coupon1 < 0) {

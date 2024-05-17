@@ -34,15 +34,16 @@ class _EventPageState extends State<EventPage> {
             return Column(children: [
               const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
               Card(
-                color: Colors.amber,
+                color: Color.fromARGB(255, 102, 19, 19),
                 shape: const RoundedRectangleBorder(
                   side: BorderSide(
                     color: Color.fromARGB(255, 0, 0, 0),
                   ),
                 ),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 100),
+                  padding: EdgeInsets.all(10),
+                  width: 350,
+                  height: 350,
                   child: Column(
                     children: [
                       Card(
@@ -62,7 +63,7 @@ class _EventPageState extends State<EventPage> {
                       ),
                       Text(data['title'],
                           style: GoogleFonts.lato(
-                            color: const Color.fromARGB(255, 6, 1, 14),
+                            color: Colors.white,
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
                           ),
@@ -72,7 +73,7 @@ class _EventPageState extends State<EventPage> {
                       ),
                       Text(data['location'],
                           style: GoogleFonts.lato(
-                            color: const Color.fromARGB(255, 6, 1, 14),
+                            color: Colors.white,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
@@ -89,7 +90,7 @@ class _EventPageState extends State<EventPage> {
                       ),
                       Text('Max Attendees : ${data['maxattendees']}',
                           style: GoogleFonts.lato(
-                            color: const Color.fromARGB(255, 6, 1, 14),
+                            color: Colors.white,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),

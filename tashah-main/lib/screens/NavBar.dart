@@ -4,6 +4,7 @@ import 'package:tasheh/screens/myeventspage.dart';
 import 'package:tasheh/screens/profile_screen.dart';
 import 'package:tasheh/screens/shop.dart';
 import 'package:tasheh/screens/upload_screen.dart';
+import 'package:tasheh/screens/uploadcoupon.dart';
 import 'package:tasheh/screens/uploaduserinfo.dart';
 
 class NavBar extends StatefulWidget {
@@ -23,6 +24,7 @@ class _MyButtomNavBarState extends State<NavBar> {
     profile_screen(),
     Uploaduserinfo(),
     MyEventPage(),
+    UploadCoupon(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -65,6 +67,8 @@ class _MyButtomNavBarState extends State<NavBar> {
                     icon: Icon(Icons.add_task), label: "AddUserInfo"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.event), label: "My Events"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.event), label: "add coupon"),
               ]),
         ),
       ),
