@@ -56,7 +56,7 @@ class _EventPageState extends State<EventPage> {
                         child: Image.network(
                           data['postUrl'],
                           cacheHeight: 150,
-                          cacheWidth: 150,
+                          cacheWidth: 200,
                         ),
                       ),
                       const SizedBox(
@@ -83,16 +83,14 @@ class _EventPageState extends State<EventPage> {
                         height: 10,
                       ),
                       OutlinedButton(
-                        onPressed: () =>
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SingleEventPage(
-                                postId: data['postId'],
-                              ),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SingleEventPage(
+                              postId: data['postId'],
                             ),
-                          )
-                        ,
+                          ),
+                        ),
                         child: const Text('View'),
                       ),
                       const SizedBox(

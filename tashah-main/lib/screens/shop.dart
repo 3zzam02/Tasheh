@@ -93,17 +93,18 @@ class _ShopState extends State<Shop> {
 
   void switchScreen(int couponIndex, num couponPrice) {
     // Update balance in Firestore
-    _updateEventStatus(currentbalance - couponPrice);
 
     // Update local balance
-    setState(() {
-      currentbalance -= couponPrice;
-    });
 
     // Check if balance is sufficient
-    if (currentbalance >= 0) {
+    if (currentbalance >= couponPrice) {
       // Proceed to success screen
       setState(() {
+        _updateEventStatus(currentbalance - couponPrice);
+        Shop_Page((int couponIndex, num couponPrice) {
+          switchScreen(couponIndex, couponPrice);
+        });
+
         activescreen = 2;
       });
     } else {

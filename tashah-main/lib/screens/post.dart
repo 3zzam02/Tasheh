@@ -5,8 +5,9 @@ class Post {
   String? postUrl;
   String? title;
   String? location;
-  dynamic maxattendees = [];
+  List<String>? attendeeslist = [];
   String? Userid;
+  num? maxattendees;
 
   Post({
     this.description,
@@ -15,9 +16,9 @@ class Post {
     this.postUrl,
     this.title,
     this.location,
+    this.attendeeslist,
     this.maxattendees,
     this.Userid,
-
   });
 
   Map<String, dynamic> toJson() => {
@@ -28,7 +29,6 @@ class Post {
         "title": title,
         "location": location,
         'maxattendees': maxattendees,
-        
       };
   Post.fromJson(Map<String, dynamic> Json) {
     postId = Json['postId'];
@@ -40,5 +40,3 @@ class Post {
     maxattendees = Json['maxattendees'];
   }
 }
-
-

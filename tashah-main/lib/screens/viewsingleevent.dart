@@ -49,7 +49,7 @@ class _SingleEventPageState extends State<SingleEventPage> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 155, 155, 155),
+              Color.fromARGB(255, 167, 101, 101),
               Color.fromARGB(255, 202, 202, 202)
             ],
             begin: Alignment.topLeft,
@@ -60,16 +60,6 @@ class _SingleEventPageState extends State<SingleEventPage> {
             ? Container(
                 height: 800,
                 width: 415,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 167, 101, 101),
-                      Color.fromARGB(255, 202, 202, 202)
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
                 child: Center(
                   child: SingleChildScrollView(
                     child: Column(
