@@ -57,7 +57,11 @@ class _ShopState extends State<Shop> {
     super.initState();
     getUserInfo();
     getCouponInfo();
-    _getBalanceStream();
+    _getBalanceStream().listen((balance) {
+      setState(() {
+        currentbalance = balance;
+      });
+    });
   }
 
   void donth1() {
@@ -74,28 +78,41 @@ class _ShopState extends State<Shop> {
         .snapshots()
         .map((snapshot) => snapshot.data()?['balance'] ?? 0);
   }
-      
+
   void _updateEventStatus(num balance) {
     String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
-     
     FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
-        .update({'balance': balance});
+        .update({'balance': balance}).then((_) {
+      setState(() {
+        currentbalance = balance;
+      });
+    });
   }
 
   void switchScreen(int couponIndex, num couponPrice) {
-  setState(() {
-    if (currentbalance - couponPrice >= 0) {
-      currentbalance -= couponPrice;
-      _updateEventStatus(currentbalance);
-      activescreen = 2;
-    } else {
-      activescreen = 3;
-    }
-  });
-}
+    // Update balance in Firestore
+    _updateEventStatus(currentbalance - couponPrice);
 
+    // Update local balance
+    setState(() {
+      currentbalance -= couponPrice;
+    });
+
+    // Check if balance is sufficient
+    if (currentbalance >= 0) {
+      // Proceed to success screen
+      setState(() {
+        activescreen = 2;
+      });
+    } else {
+      // Insufficient balance, show failure screen
+      setState(() {
+        activescreen = 3;
+      });
+    }
+  }
 
   @override
   Widget build(context) {

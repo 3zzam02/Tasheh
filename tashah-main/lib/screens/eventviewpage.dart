@@ -5,14 +5,12 @@ import 'package:tasheh/screens/firebaseeventslist.dart';
 
 class EventView extends StatefulWidget {
   const EventView({super.key});
-  
+
   @override
   State<StatefulWidget> createState() {
-    
     return _EventView();
   }
 }
-
 
 class _EventView extends State<EventView> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -40,15 +38,27 @@ class _EventView extends State<EventView> {
                       crossAxisCount: 20, mainAxisExtent: 50),
                   children: [
                     const Padding(padding: EdgeInsets.all(30)),
-                    Card(
-                        child: Container(
+                    Container(
                       padding: const EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          Image.network(
-                            data['postUrl'],
-                            cacheHeight: 150,
-                            cacheWidth: 150,
+                          Card(
+                            color: Color.fromARGB(255, 102, 19, 19),
+                            shape: const RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              width: 350,
+                              height: 350,
+                              child: Image.network(
+                                data['postUrl'],
+                                cacheHeight: 150,
+                                cacheWidth: 150,
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             height: 10,
@@ -72,7 +82,7 @@ class _EventView extends State<EventView> {
                           )
                         ],
                       ),
-                    ))
+                    )
                   ]
                   // Add more widgets to display other data as needed
                   );
