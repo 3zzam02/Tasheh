@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "596947740468",
+    "project_id": "tasheh-5feed",
+    "storage_bucket": "tasheh-5feed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596947740468:android:0fcf8bede178495010e761",
+        "android_client_info": {
+          "package_name": "com.example.tasheh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwuBBOVn-ezIMy2y61N8EbM6n1hkM1H58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
