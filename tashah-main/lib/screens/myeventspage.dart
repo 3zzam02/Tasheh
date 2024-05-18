@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasheh/screens/myeventsviewevent.dart';
 
 class MyEventPage extends StatefulWidget {
   const MyEventPage({super.key});
@@ -17,7 +18,10 @@ class _MyEventPage extends State<MyEventPage> {
     Widget EventBox = SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
       // FirebaseFirestore.instance.collection('posts').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots(),for own events
-      stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('posts')
+          .where("Userid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
@@ -55,7 +59,7 @@ class _MyEventPage extends State<MyEventPage> {
                         child: Image.network(
                           data['postUrl'],
                           cacheHeight: 150,
-                          cacheWidth: 150,
+                          cacheWidth: 200,
                         ),
                       ),
                       const SizedBox(
@@ -82,7 +86,14 @@ class _MyEventPage extends State<MyEventPage> {
                         height: 10,
                       ),
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SingleEventPage1(
+                              postId: data['postId'],
+                            ),
+                          ),
+                        ),
                         child: const Text('View'),
                       ),
                       const SizedBox(
