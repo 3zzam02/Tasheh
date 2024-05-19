@@ -3,7 +3,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tasheh/screens/NavBar.dart';
 
 //import 'profile_screen.dart';
 import '../reusable_widgets/reusable_widget.dart';
@@ -84,8 +83,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           password: _passwordTextController.text)
                       .then((value) {
                     print("Created New Account");
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Uploaduserinfo()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Uploaduserinfo()));
                   }).onError((error, stackTrace) {
                     AwesomeDialog(
                       context: context,

@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
-
 class Post {
   String? description;
   String? postId;
   DateTime? datePublished;
-  DateTimeRange? datetime;
+  DateTime? datetime;
   String? postUrl;
   String? title;
   String? location;
@@ -13,6 +11,7 @@ class Post {
   num? maxattendees;
   num? currentnumber;
   bool? isfinished;
+  num? eventpoints;
 
   Post({
     this.description,
@@ -26,6 +25,7 @@ class Post {
     this.maxattendees,
     this.currentnumber,
     this.isfinished,
+    this.eventpoints,
     this.Userid,
   });
 
@@ -41,6 +41,7 @@ class Post {
         'maxattendees': maxattendees,
         'currentnumber': 0,
         'isfinished': false,
+        'eventpoints': 0,
         'Userid': Userid,
       };
   Post.fromJson(Map<String, dynamic> Json) {

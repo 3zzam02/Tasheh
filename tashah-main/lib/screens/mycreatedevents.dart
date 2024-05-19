@@ -1,22 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasheh/screens/viewsingleevent.dart';
 
-class EventPage extends StatefulWidget {
-  const EventPage({super.key});
+import 'myeventsviewevent.dart';
+
+class MyCreatedEventPage extends StatefulWidget {
+  const MyCreatedEventPage({super.key});
 
   @override
-  State<EventPage> createState() => _EventPageState();
+  State<MyCreatedEventPage> createState() => _MyCreatedEventPage();
 }
 
-class _EventPageState extends State<EventPage> {
+class _MyCreatedEventPage extends State<MyCreatedEventPage> {
   @override
   Widget build(BuildContext context) {
     Widget EventBox = SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
       // FirebaseFirestore.instance.collection('posts').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots(),for own events
-      stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('posts')
+          .where("Userid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
@@ -84,7 +89,7 @@ class _EventPageState extends State<EventPage> {
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SingleEventPage(
+                            builder: (context) => SingleEventPage1(
                               postId: data['postId'],
                             ),
                           ),

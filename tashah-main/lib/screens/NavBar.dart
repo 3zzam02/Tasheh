@@ -5,7 +5,6 @@ import 'package:tasheh/screens/profile_screen.dart';
 import 'package:tasheh/screens/shop.dart';
 import 'package:tasheh/screens/upload_screen.dart';
 import 'package:tasheh/screens/uploadcoupon.dart';
-import 'package:tasheh/screens/uploaduserinfo.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -16,13 +15,13 @@ class NavBar extends StatefulWidget {
 
 class _MyButtomNavBarState extends State<NavBar> {
   var obj = CallBackClass();
-  int myCurrentIndex = 0;
+  int myCurrentIndex = 2;
   List pages = const [
-    EventPage(),
     up_screen(),
+    MyEventPage(),
+    EventPage(),
     Shop(),
     profile_screen(),
-    MyEventPage(),
     UploadCoupon(),
   ];
   @override
@@ -56,14 +55,14 @@ class _MyButtomNavBarState extends State<NavBar> {
                 });
               },
               items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.add), label: "Add Event"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.event), label: "My Events"),
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(icon: Icon(Icons.shop), label: "Shop"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person_outline), label: "Profile"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.event), label: "My Events"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.event), label: "add coupon"),
               ]),

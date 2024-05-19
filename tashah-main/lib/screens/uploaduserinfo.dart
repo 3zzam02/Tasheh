@@ -1,14 +1,9 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_editing_controller/number_editing_controller.dart';
 import 'package:tasheh/screens/NavBar.dart';
-import 'package:tasheh/screens/firebaseeventslist.dart';
 
 class Uploaduserinfo extends StatefulWidget {
   const Uploaduserinfo({super.key});
@@ -38,8 +33,7 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
       'phone number': phoneNumber.number,
       'balance': balance.number = 0,
     });
-    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => NavBar()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
   }
 
   @override

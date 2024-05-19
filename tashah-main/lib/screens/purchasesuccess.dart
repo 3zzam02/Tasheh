@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -43,7 +45,8 @@ class PurchaseSuccess extends StatelessWidget {
         const SizedBox(height: 10),
         Card(
           color: const Color.fromARGB(255, 170, 62, 62),
-          child: Container(padding: EdgeInsets.all(10),
+          child: Container(
+            padding: EdgeInsets.all(10),
             child: Text(
               getRandomString(10),
               style: GoogleFonts.lato(

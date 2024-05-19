@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasheh/screens/profile_screen.dart';
-import '../reusable_widgets/couponform.dart';
 
 const startallignment = Alignment.topLeft;
 const endallignment = Alignment.bottomRight;
