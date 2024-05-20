@@ -71,7 +71,7 @@ class _ProfileScreen extends State<profile_screen> {
                   
                     child: Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         const CircleAvatar(
@@ -120,7 +120,7 @@ class _ProfileScreen extends State<profile_screen> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 100,
                         )
                       ],
@@ -137,8 +137,8 @@ class _ProfileScreen extends State<profile_screen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(50),
-        boxShadow: [
-          BoxShadow(
+        boxShadow: const [
+           BoxShadow(
             offset: Offset(0, 5),
             color: Color.fromRGBO(72, 6, 7, 0.8),
             spreadRadius: 2,

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +13,40 @@ class SingleEventPage extends StatefulWidget {
 
 class _SingleEventPageState extends State<SingleEventPage> {
   DocumentSnapshot? postData; // Nullable DocumentSnapshot
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> addUserIdToList(
+      String collection, String docId, String listField) async {
+    try {
+      // Get the current user
+      User? currentUser = _auth.currentUser;
+
+      if (currentUser != null) {
+        String userId = FirebaseAuth.instance.currentUser!.uid;
+        num counter = postData!['currentnumber'];
+        num max = postData!['maxattendees'];
+        if (counter < max) {
+          DocumentReference docRef =
+              _firestore.collection('posts').doc(widget.postId);
+
+          // Add the userId to the list field
+          await docRef.update({
+            'attendeelist': FieldValue.arrayUnion([userId]),
+            'currentnumber': counter += 1,
+          });
+
+          print("Added UserId: $userId to list");
+        } else {
+          //return SnackBar(content: content)
+        }
+      } else {
+        print("No user is signed in.");
+      }
+    } catch (e) {
+      print("Error adding UserId to list: $e");
+    }
+  }
 
   @override
   void initState() {
@@ -65,14 +100,14 @@ class _SingleEventPageState extends State<SingleEventPage> {
                     child: Column(
                       children: [
                         Card(
-                          color: Color.fromARGB(255, 102, 19, 19),
+                          color: const Color.fromARGB(255, 102, 19, 19),
                           shape: const RoundedRectangleBorder(
                             side: BorderSide(
                               color: Color.fromARGB(255, 0, 0, 0),
                             ),
                           ),
                           child: Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: Image.network(
                               postData!['postUrl'],
                               cacheHeight: 300,
@@ -123,6 +158,7 @@ class _SingleEventPageState extends State<SingleEventPage> {
                             child: Center(
                               child: Text(
                                 postData!['description'],
+                                textAlign: TextAlign.center,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
@@ -172,7 +208,10 @@ class _SingleEventPageState extends State<SingleEventPage> {
                           height: 10,
                         ),
                         OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            addUserIdToList('posts', widget.postId,
+                                FirebaseAuth.instance.currentUser!.uid);
+                          },
                           child: const Text('Enroll',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,

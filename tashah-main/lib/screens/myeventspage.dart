@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'attendingevents.dart';
 import 'mycreatedevents.dart';
 
 class MyEventPage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _MyEventPage extends State<MyEventPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Events : ',
+          'My Created Events : ',
           style: GoogleFonts.lato(
             color: const Color.fromARGB(255, 226, 205, 255),
             fontSize: 24,
@@ -43,7 +44,7 @@ class _MyEventPage extends State<MyEventPage> {
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Card(
                   color: const Color.fromARGB(255, 102, 19, 19),
                   shape: const RoundedRectangleBorder(
@@ -61,14 +62,20 @@ class _MyEventPage extends State<MyEventPage> {
                         height: 20,
                       ),
                       OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MyAttendedEventPage()));
+                          },
                           child: const Text('Attending Events'))
                     ],
                   ),
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Card(
                   color: const Color.fromARGB(255, 102, 19, 19),
                   shape: const RoundedRectangleBorder(

@@ -1,21 +1,50 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'editeventpage.dart';
 import 'myeventspage.dart';
 
-class SingleEventPage1 extends StatefulWidget {
+class AttendedEventPage1 extends StatefulWidget {
   final String postId;
-  const SingleEventPage1({Key? key, required this.postId});
+  const AttendedEventPage1({Key? key, required this.postId});
 
   @override
-  State<SingleEventPage1> createState() => _SingleEventPageState();
+  State<AttendedEventPage1> createState() => _AttendedEventPageState();
 }
 
-class _SingleEventPageState extends State<SingleEventPage1> {
+class _AttendedEventPageState extends State<AttendedEventPage1> {
   DocumentSnapshot? postData; // Nullable DocumentSnapshot
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<void> removeUserIdToList(
+      String collection, String docId, String listField) async {
+    try {
+      // Get the current user
+      User? currentUser = _auth.currentUser;
+
+      if (currentUser != null) {
+        String userId = FirebaseAuth.instance.currentUser!.uid;
+        num counter = postData!['currentnumber'];
+
+        DocumentReference docRef =
+            _firestore.collection('posts').doc(widget.postId);
+
+        // Add the userId to the list field
+        await docRef.update({
+          'attendeelist': FieldValue.arrayRemove([userId]),
+          'currentnumber': counter -= 1,
+        });
+
+        print("Added UserId: $userId to list");
+      } else {
+        print("No user is signed in.");
+      }
+    } catch (e) {
+      print("Error adding UserId to list: $e");
+    }
+  }
 
   @override
   void initState() {
@@ -31,15 +60,6 @@ class _SingleEventPageState extends State<SingleEventPage1> {
     setState(() {
       postData = querySnapshot;
     });
-  }
-
-  finishevent() async {
-    bool finsihed = true;
-    await FirebaseFirestore.instance
-        .collection('posts')
-        .doc(widget.postId)
-        .update({'isfinished': finsihed});
-    setState(() {});
   }
 
   @override
@@ -194,76 +214,41 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            OutlinedButton(
-                              onPressed: () {
+                        OutlinedButton(
+                          onPressed: () {
+                            AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.warning,
+                              animType: AnimType.rightSlide,
+                              title: 'Warning',
+                              desc: 'Leave this Event ?',
+                              descTextStyle:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              titleTextStyle:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              btnCancelOnPress: () {
+                                print('cancel');
+                              },
+                              btnOkOnPress: () async {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        EditEvemtinfo(postId: widget.postId),
+                                    builder: (context) => const MyEventPage(),
                                   ),
                                 );
+                                await removeUserIdToList('posts', widget.postId,
+                                    FirebaseAuth.instance.currentUser!.uid);
                               },
-                              child: const Text('Edit',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            OutlinedButton(
-                              onPressed: () {
-                                AwesomeDialog(
-                                  context: context,
-                                  dialogType: DialogType.warning,
-                                  animType: AnimType.rightSlide,
-                                  title: 'Warning',
-                                  desc: 'Delete this Event ?',
-                                  descTextStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  titleTextStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  btnCancelOnPress: () {
-                                    print('cancel');
-                                  },
-                                  btnOkOnPress: () async {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const MyEventPage(),
-                                      ),
-                                    );
-                                    await FirebaseFirestore.instance
-                                        .collection('posts')
-                                        .doc(widget.postId)
-                                        .delete();
-                                  },
-                                ).show();
-                              },
-                              child: const Text('Remove',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            OutlinedButton(
-                              onPressed: finishevent,
-                              child: const Text('Finish',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
-                          ],
+                            ).show();
+                          },
+                          child: const Text('Leave',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black)),
+                        ),
+                        const SizedBox(
+                          width: 20,
                         )
                       ],
                     ),

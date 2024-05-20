@@ -6,7 +6,7 @@ class Post {
   String? postUrl;
   String? title;
   String? location;
-  List<String>? attendeeslist = [];
+  List<String>? attendeeslist;
   String? Userid;
   num? maxattendees;
   num? currentnumber;
@@ -37,7 +37,7 @@ class Post {
         "postUrl": postUrl,
         "title": title,
         "location": location,
-        'attendeeslist': attendeeslist,
+        'attendeeslist': [],
         'maxattendees': maxattendees,
         'currentnumber': 0,
         'isfinished': false,

@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasheh/screens/viewsingleevent.dart';
 
-class EventPage extends StatefulWidget {
-  const EventPage({super.key});
+import 'viewsingleattendedevent.dart';
+
+class MyAttendedEventPage extends StatefulWidget {
+  const MyAttendedEventPage({super.key});
 
   @override
-  State<EventPage> createState() => _EventPageState();
+  State<MyAttendedEventPage> createState() => _MyAttendedEventPage();
 }
 
-class _EventPageState extends State<EventPage> {
+class _MyAttendedEventPage extends State<MyAttendedEventPage> {
+  String userid = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
     Widget EventBox = SingleChildScrollView(
@@ -18,7 +21,7 @@ class _EventPageState extends State<EventPage> {
       // FirebaseFirestore.instance.collection('posts').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots(),for own events
       stream: FirebaseFirestore.instance
           .collection('posts')
-          .where('isfinished', isEqualTo: false)
+          .where('attendeelist')
           .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -36,14 +39,14 @@ class _EventPageState extends State<EventPage> {
             return Column(children: [
               const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
               Card(
-                color: const Color.fromARGB(255, 102, 19, 19),
+                color: Color.fromARGB(255, 102, 19, 19),
                 shape: const RoundedRectangleBorder(
                   side: BorderSide(
                     color: Color.fromARGB(255, 0, 0, 0),
                   ),
                 ),
                 child: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
                   width: 350,
                   height: 350,
                   child: Column(
@@ -87,7 +90,7 @@ class _EventPageState extends State<EventPage> {
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SingleEventPage(
+                            builder: (context) => AttendedEventPage1(
                               postId: data['postId'],
                             ),
                           ),
@@ -119,7 +122,7 @@ class _EventPageState extends State<EventPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Events : ',
+          'Attending Events : ',
           style: GoogleFonts.lato(
             color: const Color.fromARGB(255, 226, 205, 255),
             fontSize: 24,
