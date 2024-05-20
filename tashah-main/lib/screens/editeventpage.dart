@@ -8,7 +8,20 @@ import 'package:number_editing_controller/number_editing_controller.dart';
 
 class EditEvemtinfo extends StatefulWidget {
   final String postId;
-  const EditEvemtinfo({super.key, required this.postId});
+
+  const EditEvemtinfo({
+    super.key,
+    required this.postId,
+    required this.oldtitle,
+    required this.olddescription,
+    required this.oldlocation,
+    required this.oldmaxattendees,
+  });
+
+  final String oldtitle;
+  final String olddescription;
+  final String oldlocation;
+  final num oldmaxattendees;
 
   @override
   State<StatefulWidget> createState() => _EditEventinfo();
@@ -40,6 +53,10 @@ class _EditEventinfo extends State<EditEvemtinfo> {
   @override
   void initState() {
     super.initState();
+    title.text = widget.oldtitle;
+    description.text = widget.olddescription;
+    location.text = widget.oldlocation;
+    maxattendees.number = widget.oldmaxattendees;
   }
 
   @override

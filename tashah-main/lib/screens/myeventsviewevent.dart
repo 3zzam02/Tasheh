@@ -202,8 +202,14 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        EditEvemtinfo(postId: widget.postId),
+                                    builder: (context) => EditEvemtinfo(
+                                      postId: widget.postId,
+                                      oldtitle: postData!['title'],
+                                      olddescription: postData!['description'],
+                                      oldlocation: postData!['location'],
+                                      oldmaxattendees:
+                                          postData!['maxattendees'],
+                                    ),
                                   ),
                                 );
                               },
