@@ -199,31 +199,6 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                           children: [
                             OutlinedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EditEvemtinfo(
-                                      postId: widget.postId,
-                                      oldtitle: postData!['title'],
-                                      olddescription: postData!['description'],
-                                      oldlocation: postData!['location'],
-                                      oldmaxattendees:
-                                          postData!['maxattendees'],
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: const Text('Edit',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            OutlinedButton(
-                              onPressed: () {
                                 AwesomeDialog(
                                   context: context,
                                   dialogType: DialogType.warning,
@@ -253,6 +228,31 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                                 ).show();
                               },
                               child: const Text('Remove',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                      color: Colors.black)),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            OutlinedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditEvemtinfo(
+                                      postId: widget.postId,
+                                      oldtitle: postData!['title'],
+                                      olddescription: postData!['description'],
+                                      oldlocation: postData!['location'],
+                                      oldmaxattendees:
+                                          postData!['maxattendees'],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const Text('Edit',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15,

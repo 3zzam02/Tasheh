@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'myeventsviewevent.dart';
+import 'myeventsviewsingleevent.dart';
 
 class MyCreatedEventPage extends StatefulWidget {
   const MyCreatedEventPage({super.key});

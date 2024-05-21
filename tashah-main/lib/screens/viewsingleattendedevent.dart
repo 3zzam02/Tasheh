@@ -33,8 +33,9 @@ class _AttendedEventPageState extends State<AttendedEventPage1> {
 
         // Add the userId to the list field
         await docRef.update({
-          'attendeelist': FieldValue.arrayRemove([userId]),
+          'attendeeslistid': FieldValue.arrayRemove([userId]),
           'currentnumber': counter -= 1,
+          
         });
 
         print("Added UserId: $userId to list");

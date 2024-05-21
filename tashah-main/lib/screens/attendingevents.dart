@@ -21,7 +21,7 @@ class _MyAttendedEventPage extends State<MyAttendedEventPage> {
       // FirebaseFirestore.instance.collection('posts').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots(),for own events
       stream: FirebaseFirestore.instance
           .collection('posts')
-          .where('attendeelist')
+          .where('attendeeslistid', arrayContains: userid)
           .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
