@@ -10,6 +10,15 @@ import 'package:uuid/uuid.dart';
 class ImageStoreMethods {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  DocumentSnapshot? postData;
+  void getUserInf() async {
+    DocumentSnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    postData = querySnapshot;
+  }
 
   Future<String> imageToStorage(Uint8List file) async {
     String id = const Uuid().v1();
@@ -27,7 +36,6 @@ class ImageStoreMethods {
     try {
       String photoUrl = await imageToStorage(file);
       String postId = const Uuid().v1();
-      
 
       Post post = Post(
         description: description,
@@ -39,6 +47,7 @@ class ImageStoreMethods {
         location: location,
         maxattendees: maxattendees,
         Userid: FirebaseAuth.instance.currentUser!.uid,
+        hostname: postData!['full name'],
       );
       _firestore.collection('posts').doc(postId).set(
             post.toJson(),

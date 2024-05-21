@@ -83,20 +83,6 @@ class _EventPageState extends State<EventPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      OutlinedButton(
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SingleEventPage(
-                              postId: data['postId'],
-                            ),
-                          ),
-                        ),
-                        child: const Text('View'),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
                       Text(
                           'Current Number of Attendees : ${data['currentnumber']}',
                           style: GoogleFonts.lato(
@@ -125,6 +111,20 @@ class _EventPageState extends State<EventPage> {
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      OutlinedButton(
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SingleEventPage(
+                              postId: data['postId'],
+                            ),
+                          ),
+                        ),
+                        child: const Text('View'),
+                      ),
                     ],
                   ),
                 ),

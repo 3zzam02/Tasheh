@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Post {
   String? description;
   String? postId;
@@ -9,6 +12,7 @@ class Post {
   List<String>? attendeeslistid;
   List<String>? attendeeslistnames;
   String? Userid;
+  String? hostname;
   num? maxattendees;
   num? currentnumber;
   bool? isfinished;
@@ -31,6 +35,7 @@ class Post {
     this.isfinished,
     this.eventpoints,
     this.Userid,
+    this.hostname,
     this.sponsorid,
     this.sponsorname,
   });
@@ -50,6 +55,7 @@ class Post {
         'isfinished': false,
         'eventpoints': 0,
         'Userid': Userid,
+        'hostname': hostname,
         'sponsorid': 'null',
         'sponsorname': 'Not Sponsored',
       };
