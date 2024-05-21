@@ -2,43 +2,33 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'editeventpage.dart';
+import 'myeventspage.dart';
 
-
-class SingleEventPage1 extends StatefulWidget {
-  final String postId;
-  const SingleEventPage1({Key? key, required this.postId});
+class SingleCouponPage extends StatefulWidget {
+  final String couponId;
+  const SingleCouponPage({Key? key, required this.couponId});
 
   @override
-  State<SingleEventPage1> createState() => _SingleEventPageState();
+  State<SingleCouponPage> createState() => _SingleEventPageState();
 }
 
-class _SingleEventPageState extends State<SingleEventPage1> {
-  DocumentSnapshot? postData; // Nullable DocumentSnapshot
+class _SingleEventPageState extends State<SingleCouponPage> {
+  DocumentSnapshot? couponData; // Nullable DocumentSnapshot
 
   @override
   void initState() {
     super.initState();
-    getSingleEvent();
+    getSingleCoupon();
   }
 
-  void getSingleEvent() async {
+  void getSingleCoupon() async {
     DocumentSnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('posts')
-        .doc(widget.postId)
+        .collection('coupon')
+        .doc(widget.couponId)
         .get();
     setState(() {
-      postData = querySnapshot;
+      couponData = querySnapshot;
     });
-  }
-
-  finishevent() async {
-    bool finsihed = true;
-    await FirebaseFirestore.instance
-        .collection('posts')
-        .doc(widget.postId)
-        .update({'isfinished': finsihed});
-    setState(() {});
   }
 
   @override
@@ -46,7 +36,7 @@ class _SingleEventPageState extends State<SingleEventPage1> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Event Details',
+          'Coupon Details',
           style: GoogleFonts.lato(
             color: const Color.fromARGB(255, 226, 205, 255),
             fontSize: 24,
@@ -68,7 +58,7 @@ class _SingleEventPageState extends State<SingleEventPage1> {
             end: Alignment.bottomRight,
           ),
         ),
-        child: postData != null
+        child: couponData != null
             ? SizedBox(
                 height: 800,
                 width: 415,
@@ -85,8 +75,8 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                           ),
                           child: Container(
                             padding: const EdgeInsets.all(10),
-                            child: Image.network(
-                              postData!['postUrl'],
+                            child: Image.asset(
+                              'assets/images/copoun.jpg',
                               cacheHeight: 300,
                               cacheWidth: 300,
                             ),
@@ -108,7 +98,7 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                           child: Container(
                             padding: const EdgeInsets.all(10),
                             child: Text(
-                              postData!['title'],
+                              couponData!['title'],
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 30,
@@ -119,7 +109,7 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text('Description : ',
+                        const Text('Price : ',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
@@ -130,11 +120,11 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                         Card(
                           color: const Color.fromARGB(167, 255, 95, 95),
                           child: Container(
-                            width: 250,
+                            width: 50,
                             padding: const EdgeInsets.all(10),
                             child: Center(
                               child: Text(
-                                postData!['description'],
+                                couponData!['price'],
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -161,7 +151,7 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                                 padding: const EdgeInsets.all(10),
                                 child: Center(
                                   child: Text(
-                                    postData!['location'],
+                                    couponData!['location'],
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15,
@@ -175,45 +165,6 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(
-                            'Current Number of Attendees : ${postData!['currentnumber']}',
-                            style: GoogleFonts.lato(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                            'Max Number of Attendees : ${postData!['maxattendees']}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 0, 0, 0))),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text('Sponsored By : ${postData!['sponsorname']}',
-                            style: GoogleFonts.lato(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                            'Is this event fisnihed ? : ${postData!['isfinished']}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 0, 0, 0))),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -224,7 +175,7 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                                   dialogType: DialogType.warning,
                                   animType: AnimType.rightSlide,
                                   title: 'Warning',
-                                  desc: 'Delete this Event ?',
+                                  desc: 'Delete this Coupon ?',
                                   descTextStyle: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                   titleTextStyle: const TextStyle(
@@ -233,12 +184,17 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                                     print('cancel');
                                   },
                                   btnOkOnPress: () async {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MyEventPage(),
+                                      ),
+                                    );
                                     await FirebaseFirestore.instance
-                                        .collection('posts')
-                                        .doc(widget.postId)
+                                        .collection('coupon')
+                                        .doc(widget.couponId)
                                         .delete();
-                                    Navigator.of(context)
-                                        .pop('SingleEventPage1');
                                   },
                                 ).show();
                               },
@@ -248,42 +204,34 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                                       fontSize: 15,
                                       color: Colors.black)),
                             ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EditEvemtinfo(
-                                      postId: widget.postId,
-                                      oldtitle: postData!['title'],
-                                      olddescription: postData!['description'],
-                                      oldlocation: postData!['location'],
-                                      oldmaxattendees:
-                                          postData!['maxattendees'],
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: const Text('Edit',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            OutlinedButton(
-                              onPressed: finishevent,
-                              child: const Text('Finish',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
+                            // const SizedBox(
+                            //   width: 20,
+                            // ),
+                            // OutlinedButton(
+                            //   onPressed: () {
+                            //     Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //         builder: (context) => EditEvemtinfo(
+                            //           couponId: widget.couponId,
+                            //           oldtitle: couponData!['title'],
+                            //           olddescription: couponData!['description'],
+                            //           oldlocation: couponData!['location'],
+                            //           oldmaxattendees:
+                            //               couponData!['maxattendees'],
+                            //         ),
+                            //       ),
+                            //     );
+                            //   },
+                            //   child: const Text('Edit',
+                            //       style: TextStyle(
+                            //           fontWeight: FontWeight.bold,
+                            //           fontSize: 15,
+                            //           color: Colors.black)),
+                            // ),
+                            // const SizedBox(
+                            //   width: 20,
+                            // ),
                           ],
                         )
                       ],

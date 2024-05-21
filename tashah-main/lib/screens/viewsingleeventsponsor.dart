@@ -1,25 +1,77 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'editeventpage.dart';
 
-
-class SingleEventPage1 extends StatefulWidget {
+class SingleEventPagesponsor extends StatefulWidget {
   final String postId;
-  const SingleEventPage1({Key? key, required this.postId});
+  const SingleEventPagesponsor({Key? key, required this.postId});
 
   @override
-  State<SingleEventPage1> createState() => _SingleEventPageState();
+  State<SingleEventPagesponsor> createState() => _SingleEventPagesponsorState();
 }
 
-class _SingleEventPageState extends State<SingleEventPage1> {
-  DocumentSnapshot? postData; // Nullable DocumentSnapshot
+class _SingleEventPagesponsorState extends State<SingleEventPagesponsor> {
+  DocumentSnapshot? postData;
+  DocumentSnapshot? postData1; // Nullable DocumentSnapshot
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // DocumentSnapshot? userData;
+  // void getUserInfp() async {
+  //   DocumentSnapshot querySnapshot1 = await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .get();
+  //   setState(() {
+  //     userData = querySnapshot1;
+  //   });
+  // }
+  void getUserInf() async {
+    DocumentSnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    setState(() {
+      postData1 = querySnapshot;
+    });
+  }
+
+  Future<void> addsponsor(
+      String collection, String docId, String listField) async {
+    try {
+      // Get the current user
+      User? currentUser = _auth.currentUser;
+
+      if (currentUser != null && postData!['sponsorid'] == 'null') {
+        String userId = FirebaseAuth.instance.currentUser!.uid;
+
+        DocumentReference docRef =
+            _firestore.collection('posts').doc(widget.postId);
+
+        // Add the userId to the list field
+        await docRef.update({
+          'sponsorid': userId,
+          'sponsorname': postData1!['full name'],
+
+          // 'attendeeslistname': FieldValue.arrayUnion([userData!['full name']])
+        });
+
+        print("Added UserId: $userId to list");
+      } else {
+        print("No user is signed in. or event is already Sponsored");
+      }
+    } catch (e) {
+      print("Error adding UserId to list: $e");
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     getSingleEvent();
+    getUserInf();
   }
 
   void getSingleEvent() async {
@@ -30,15 +82,6 @@ class _SingleEventPageState extends State<SingleEventPage1> {
     setState(() {
       postData = querySnapshot;
     });
-  }
-
-  finishevent() async {
-    bool finsihed = true;
-    await FirebaseFirestore.instance
-        .collection('posts')
-        .doc(widget.postId)
-        .update({'isfinished': finsihed});
-    setState(() {});
   }
 
   @override
@@ -69,7 +112,7 @@ class _SingleEventPageState extends State<SingleEventPage1> {
           ),
         ),
         child: postData != null
-            ? SizedBox(
+            ? Container(
                 height: 800,
                 width: 415,
                 child: Center(
@@ -205,86 +248,16 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(
-                            'Is this event fisnihed ? : ${postData!['isfinished']}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 0, 0, 0))),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            OutlinedButton(
-                              onPressed: () {
-                                AwesomeDialog(
-                                  context: context,
-                                  dialogType: DialogType.warning,
-                                  animType: AnimType.rightSlide,
-                                  title: 'Warning',
-                                  desc: 'Delete this Event ?',
-                                  descTextStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  titleTextStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  btnCancelOnPress: () {
-                                    print('cancel');
-                                  },
-                                  btnOkOnPress: () async {
-                                    await FirebaseFirestore.instance
-                                        .collection('posts')
-                                        .doc(widget.postId)
-                                        .delete();
-                                    Navigator.of(context)
-                                        .pop('SingleEventPage1');
-                                  },
-                                ).show();
-                              },
-                              child: const Text('Remove',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EditEvemtinfo(
-                                      postId: widget.postId,
-                                      oldtitle: postData!['title'],
-                                      olddescription: postData!['description'],
-                                      oldlocation: postData!['location'],
-                                      oldmaxattendees:
-                                          postData!['maxattendees'],
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: const Text('Edit',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            OutlinedButton(
-                              onPressed: finishevent,
-                              child: const Text('Finish',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
-                          ],
+                        OutlinedButton(
+                          onPressed: () {
+                            addsponsor('posts', widget.postId,
+                                FirebaseAuth.instance.currentUser!.uid);
+                          },
+                          child: const Text('Become Sposnor',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black)),
                         )
                       ],
                     ),

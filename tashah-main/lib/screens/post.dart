@@ -50,8 +50,8 @@ class Post {
         'isfinished': false,
         'eventpoints': 0,
         'Userid': Userid,
-        'sponsorid': 'sponsorid',
-        'sponsorname': 'sponsorname',
+        'sponsorid': 'null',
+        'sponsorname': 'Not Sponsored',
       };
   Post.fromJson(Map<String, dynamic> Json) {
     postId = Json['postId'];

@@ -13,7 +13,8 @@ class SingleEventPage extends StatefulWidget {
 }
 
 class _SingleEventPageState extends State<SingleEventPage> {
-  DocumentSnapshot? postData; // Nullable DocumentSnapshot
+  DocumentSnapshot? postData;
+  DocumentSnapshot? postData2; // Nullable DocumentSnapshot
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -27,6 +28,15 @@ class _SingleEventPageState extends State<SingleEventPage> {
   //     userData = querySnapshot1;
   //   });
   // }
+  void getUserInf() async {
+    DocumentSnapshot querySnapshot1 = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    setState(() {
+      postData2 = querySnapshot1;
+    });
+  }
 
   Future<void> addUserIdToList(
       String collection, String docId, String listField) async {
@@ -38,6 +48,7 @@ class _SingleEventPageState extends State<SingleEventPage> {
         String userId = FirebaseAuth.instance.currentUser!.uid;
         num counter = postData!['currentnumber'];
         num max = postData!['maxattendees'];
+        // String username = postData2!['full name'];
         if (counter < max) {
           DocumentReference docRef =
               _firestore.collection('posts').doc(widget.postId);
@@ -46,7 +57,7 @@ class _SingleEventPageState extends State<SingleEventPage> {
           await docRef.update({
             'attendeeslistid': FieldValue.arrayUnion([userId]),
             'currentnumber': counter += 1,
-            // 'attendeeslistname': FieldValue.arrayUnion([userData!['full name']])
+            // 'attendeeslistnames': FieldValue.arrayUnion([username]),
           });
 
           print("Added UserId: $userId to list");
@@ -218,11 +229,32 @@ class _SingleEventPageState extends State<SingleEventPage> {
                           height: 10,
                         ),
                         Text(
+                            'Current Number of Attendees : ${postData!['currentnumber']}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
                             'Max Number of Attendees : ${postData!['maxattendees']}',
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
                                 color: Color.fromARGB(255, 0, 0, 0))),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text('Sponsored By : ${postData!['sponsorname']}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
                         const SizedBox(
                           height: 10,
                         ),

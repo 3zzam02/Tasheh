@@ -4,7 +4,7 @@ import 'package:tasheh/screens/myeventspage.dart';
 import 'package:tasheh/screens/profile_screen.dart';
 import 'package:tasheh/screens/shop.dart';
 import 'package:tasheh/screens/upload_screen.dart';
-import 'package:tasheh/screens/uploadcoupon.dart';
+import 'coupons.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -22,7 +22,7 @@ class _MyButtomNavBarState extends State<NavBar> {
     EventPage(),
     Shop(),
     profile_screen(),
-    UploadCoupon(),
+    CouponsPage(),
   ];
   @override
   Widget build(BuildContext context) {

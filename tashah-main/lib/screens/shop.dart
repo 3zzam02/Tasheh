@@ -156,6 +156,7 @@ class _ShopState extends State<Shop> {
               backgroundColor: const Color.fromARGB(255, 80, 0, 0),
             ),
             body: Container(
+              alignment: Alignment.topCenter,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [

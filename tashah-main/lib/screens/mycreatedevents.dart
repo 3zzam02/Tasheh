@@ -47,7 +47,7 @@ class _MyCreatedEventPage extends State<MyCreatedEventPage> {
                 child: Container(
                   padding: EdgeInsets.all(10),
                   width: 350,
-                  height: 350,
+                  height: 430,
                   child: Column(
                     children: [
                       Card(
@@ -99,7 +99,28 @@ class _MyCreatedEventPage extends State<MyCreatedEventPage> {
                       const SizedBox(
                         height: 10,
                       ),
+                      Text(
+                          'Current Number of Attendees : ${data['currentnumber']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Text('Max Attendees : ${data['maxattendees']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text('Sponsored By : ${data['sponsorname']}',
                           style: GoogleFonts.lato(
                             color: Colors.white,
                             fontSize: 15,

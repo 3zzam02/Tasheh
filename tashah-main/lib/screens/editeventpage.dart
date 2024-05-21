@@ -48,6 +48,7 @@ class _EditEventinfo extends State<EditEvemtinfo> {
 
     isloading = false;
     setState(() {});
+    Navigator.of(context).pop('SingleEventPage1');
   }
 
   @override

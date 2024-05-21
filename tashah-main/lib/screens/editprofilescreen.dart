@@ -44,6 +44,7 @@ class _Edituserinfo extends State<Edituserinfo> {
 
     isloading = false;
     setState(() {});
+    Navigator.of(context).pop('profile_screen');
   }
 
   @override

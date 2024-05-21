@@ -22,13 +22,16 @@ class _UploadCoupon extends State<UploadCoupon> {
   NumberEditingTextController price = NumberEditingTextController.integer();
 
   CollectionReference coupon = FirebaseFirestore.instance.collection('coupon');
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   addcoupon() async {
     coupon.add({
+      'couponid': _firestore.collection('coupon').doc().id,
       'Userid': FirebaseAuth.instance.currentUser!.uid,
       'title': title.text,
       'price': price.number,
     });
-    Navigator.of(context).pushNamed('NavBar');
+
+    Navigator.of(context).pop('NavBar');
   }
 
   @override

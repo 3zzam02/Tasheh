@@ -56,6 +56,7 @@ class _ProfileScreen extends State<profile_screen> {
               child: CircularProgressIndicator(),
             )
           : Container(
+              alignment: Alignment.topCenter,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -68,67 +69,65 @@ class _ProfileScreen extends State<profile_screen> {
               ),
               child: SingleChildScrollView(
                 child: Center(
-                  
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        const CircleAvatar(
-                          radius: 70,
-                          backgroundImage:
-                              AssetImage('assets/images/prof_img.jpg'),
-                        ),
-                        const SizedBox(height: 20),
-                        itemProfile('Name : ', '${data[i]['full name']}',
-                            CupertinoIcons.person),
-                        const SizedBox(height: 10),
-                        itemProfile('Phone : ', '0${data[i]['phone number']}',
-                            CupertinoIcons.phone),
-                        const SizedBox(height: 10),
-                        itemProfile('Address : ', '${data[i]['address']}',
-                            CupertinoIcons.location),
-                        const SizedBox(height: 10),
-                        itemProfile('Email: ', '${data[i]['Email']}',
-                            CupertinoIcons.mail),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 155, 75, 69),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Edituserinfo(
-                                  docid: data[i]['Userid'],
-                                  oldname: data[i]['full name'],
-                                  address: data[i]['address'],
-                                  phonenumber: data[i]['phone number'],
-                                ),
-                              ));
-                            },
-                            child: const Text(
-                              'Edit Profile',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      const CircleAvatar(
+                        radius: 70,
+                        backgroundImage:
+                            AssetImage('assets/images/prof_img.jpg'),
+                      ),
+                      const SizedBox(height: 20),
+                      itemProfile('Name : ', '${data[i]['full name']}',
+                          CupertinoIcons.person),
+                      const SizedBox(height: 10),
+                      itemProfile('Phone : ', '0${data[i]['phone number']}',
+                          CupertinoIcons.phone),
+                      const SizedBox(height: 10),
+                      itemProfile('Address : ', '${data[i]['address']}',
+                          CupertinoIcons.location),
+                      const SizedBox(height: 10),
+                      itemProfile('Email: ', '${data[i]['Email']}',
+                          CupertinoIcons.mail),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 155, 75, 69),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Edituserinfo(
+                                docid: data[i]['Userid'],
+                                oldname: data[i]['full name'],
+                                address: data[i]['address'],
+                                phonenumber: data[i]['phone number'],
                               ),
+                            ));
+                          },
+                          child: const Text(
+                            'Edit Profile',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 100,
-                        )
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        height: 100,
+                      )
+                    ],
                   ),
                 ),
               ),
-           
+            ),
     );
   }
 
@@ -138,7 +137,7 @@ class _ProfileScreen extends State<profile_screen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(50),
         boxShadow: const [
-           BoxShadow(
+          BoxShadow(
             offset: Offset(0, 5),
             color: Color.fromRGBO(72, 6, 7, 0.8),
             spreadRadius: 2,
