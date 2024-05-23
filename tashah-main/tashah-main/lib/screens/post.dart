@@ -16,6 +16,7 @@ class Post {
   num? eventpoints;
   String? sponsorid;
   String? sponsorname;
+  num? hostnumber;
 
   Post({
     this.description,
@@ -35,6 +36,7 @@ class Post {
     this.hostname,
     this.sponsorid,
     this.sponsorname,
+    this.hostnumber,
   });
 
   Map<String, dynamic> toJson() => {
@@ -42,7 +44,7 @@ class Post {
         "title": title,
         "description": description,
         "datePublished": datePublished,
-        'time': datetime,
+        'time': datetime.toString(),
         "location": location,
         "postUrl": postUrl,
         'attendeeslistid': [],
@@ -52,9 +54,10 @@ class Post {
         'isfinished': false,
         'eventpoints': 0,
         'Userid': Userid,
-        'hostname': 0,
+        'hostname': 'hidden',
         'sponsorid': 'null',
         'sponsorname': 'Not Sponsored',
+        'hostnubmer': hostnumber,
       };
   Post.fromJson(Map<String, dynamic> Json) {
     postId = Json['postId'];

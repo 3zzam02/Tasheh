@@ -1,16 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'viewsingleevent.dart';
 
-class EventPage extends StatefulWidget {
-  const EventPage({super.key});
+import 'sponsoredsingleevent.dart';
+
+class MysponsoredEventPage extends StatefulWidget {
+  const MysponsoredEventPage({super.key});
 
   @override
-  State<EventPage> createState() => _EventPageState();
+  State<MysponsoredEventPage> createState() => _MysponsoredEventPage();
 }
 
-class _EventPageState extends State<EventPage> {
+DocumentSnapshot postData1 = postData1;
+
+class _MysponsoredEventPage extends State<MysponsoredEventPage> {
+  void getUserInf() async {
+    DocumentSnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    setState(() {
+      postData1 = querySnapshot;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getUserInf();
+  }
+
+  String userid = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
     Widget EventBox = SingleChildScrollView(
@@ -18,7 +40,7 @@ class _EventPageState extends State<EventPage> {
       // FirebaseFirestore.instance.collection('posts').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots(),for own events
       stream: FirebaseFirestore.instance
           .collection('posts')
-          .where('isfinished', isEqualTo: false)
+          .where('sponsorid', isEqualTo: userid)
           .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -36,14 +58,14 @@ class _EventPageState extends State<EventPage> {
             return Column(children: [
               const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
               Card(
-                color: const Color.fromARGB(255, 102, 19, 19),
+                color: Color.fromARGB(255, 102, 19, 19),
                 shape: const RoundedRectangleBorder(
                   side: BorderSide(
                     color: Color.fromARGB(255, 0, 0, 0),
                   ),
                 ),
                 child: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
                   width: 350,
                   height: 450,
                   child: Column(
@@ -81,7 +103,28 @@ class _EventPageState extends State<EventPage> {
                           ),
                           textAlign: TextAlign.center),
                       const SizedBox(
-                        height: 5,
+                        height: 10,
+                      ),
+                      Text('${data['time']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                          'Current Number of Attendees : ${data['currentnumber']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
                       ),
                       Text('Sponsored By : ${data['sponsorname']}',
                           style: GoogleFonts.lato(
@@ -91,13 +134,23 @@ class _EventPageState extends State<EventPage> {
                           ),
                           textAlign: TextAlign.center),
                       const SizedBox(
-                        height: 5,
+                        height: 10,
+                      ),
+                      Text('Max Attendees : ${data['maxattendees']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
                       ),
                       OutlinedButton(
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SingleEventPage(
+                            builder: (context) => SponsoredEventPage1(
                               postId: data['postId'],
                             ),
                           ),
@@ -119,7 +172,7 @@ class _EventPageState extends State<EventPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Events : ',
+          'Sponsored Events : ',
           style: GoogleFonts.lato(
             color: const Color.fromARGB(255, 226, 205, 255),
             fontSize: 24,

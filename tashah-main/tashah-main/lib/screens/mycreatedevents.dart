@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'viewsingleevent.dart';
 
-class EventPage extends StatefulWidget {
-  const EventPage({super.key});
+import 'myeventsviewsingleevent.dart';
+
+class MyCreatedEventPage extends StatefulWidget {
+  const MyCreatedEventPage({super.key});
 
   @override
-  State<EventPage> createState() => _EventPageState();
+  State<MyCreatedEventPage> createState() => _MyCreatedEventPage();
 }
 
-class _EventPageState extends State<EventPage> {
+class _MyCreatedEventPage extends State<MyCreatedEventPage> {
   @override
   Widget build(BuildContext context) {
     Widget EventBox = SingleChildScrollView(
@@ -18,7 +20,7 @@ class _EventPageState extends State<EventPage> {
       // FirebaseFirestore.instance.collection('posts').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots(),for own events
       stream: FirebaseFirestore.instance
           .collection('posts')
-          .where('isfinished', isEqualTo: false)
+          .where("Userid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -36,14 +38,14 @@ class _EventPageState extends State<EventPage> {
             return Column(children: [
               const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
               Card(
-                color: const Color.fromARGB(255, 102, 19, 19),
+                color: Color.fromARGB(255, 102, 19, 19),
                 shape: const RoundedRectangleBorder(
                   side: BorderSide(
                     color: Color.fromARGB(255, 0, 0, 0),
                   ),
                 ),
                 child: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
                   width: 350,
                   height: 450,
                   child: Column(
@@ -81,7 +83,38 @@ class _EventPageState extends State<EventPage> {
                           ),
                           textAlign: TextAlign.center),
                       const SizedBox(
-                        height: 5,
+                        height: 10,
+                      ),
+                      Text('${data['time']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                          'Current Number of Attendees : ${data['currentnumber']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text('Max Attendees : ${data['maxattendees']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
                       ),
                       Text('Sponsored By : ${data['sponsorname']}',
                           style: GoogleFonts.lato(
@@ -91,13 +124,13 @@ class _EventPageState extends State<EventPage> {
                           ),
                           textAlign: TextAlign.center),
                       const SizedBox(
-                        height: 5,
+                        height: 10,
                       ),
                       OutlinedButton(
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SingleEventPage(
+                            builder: (context) => SingleEventPage1(
                               postId: data['postId'],
                             ),
                           ),

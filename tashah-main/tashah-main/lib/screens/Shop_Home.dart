@@ -1,25 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'viewsingleevent.dart';
 
-class EventPage extends StatefulWidget {
-  const EventPage({super.key});
+const startallignment = Alignment.topLeft;
+const endallignment = Alignment.bottomRight;
+
+class Shop_Page extends StatefulWidget {
+  const Shop_Page(this.startShop, {super.key});
+  final void Function(int, num) startShop;
 
   @override
-  State<EventPage> createState() => _EventPageState();
+  State<Shop_Page> createState() => _Shop_PageState();
 }
 
-class _EventPageState extends State<EventPage> {
+class _Shop_PageState extends State<Shop_Page> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     Widget EventBox = SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
-      // FirebaseFirestore.instance.collection('posts').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots(),for own events
-      stream: FirebaseFirestore.instance
-          .collection('posts')
-          .where('isfinished', isEqualTo: false)
-          .snapshots(),
+      stream: FirebaseFirestore.instance.collection('coupon').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
@@ -31,7 +30,9 @@ class _EventPageState extends State<EventPage> {
           padding: const EdgeInsets.only(bottom: 100),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          children: snapshot.data!.docs.map((DocumentSnapshot document) {
+          children: snapshot.data!.docs.asMap().entries.map((entry) {
+            int index = entry.key;
+            DocumentSnapshot document = entry.value;
             Map<String, dynamic> data = document.data() as Map<String, dynamic>;
             return Column(children: [
               const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
@@ -45,7 +46,7 @@ class _EventPageState extends State<EventPage> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   width: 350,
-                  height: 450,
+                  height: 320,
                   child: Column(
                     children: [
                       Card(
@@ -54,14 +55,13 @@ class _EventPageState extends State<EventPage> {
                             color: Color.fromARGB(255, 0, 0, 0),
                           ),
                         ),
-                        child: Image.network(
-                          data['postUrl'],
-                          cacheHeight: 150,
-                          cacheWidth: 200,
+                        child: Image.asset(
+                          'assets/images/copoun.jpg',
+                          height: 100,
                         ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       Text(data['title'],
                           style: GoogleFonts.lato(
@@ -73,7 +73,7 @@ class _EventPageState extends State<EventPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(data['location'],
+                      Text('Price: ${data['price']}',
                           style: GoogleFonts.lato(
                             color: Colors.white,
                             fontSize: 15,
@@ -81,68 +81,26 @@ class _EventPageState extends State<EventPage> {
                           ),
                           textAlign: TextAlign.center),
                       const SizedBox(
-                        height: 5,
-                      ),
-                      Text('Sponsored By : ${data['sponsorname']}',
-                          style: GoogleFonts.lato(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center),
-                      const SizedBox(
-                        height: 5,
+                        height: 10,
                       ),
                       OutlinedButton(
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SingleEventPage(
-                              postId: data['postId'],
-                            ),
-                          ),
-                        ),
-                        child: const Text('View'),
+                        onPressed: () => widget.startShop(index, data['price']),
+                        child: const Text('Get Coupon',
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                     ],
                   ),
                 ),
               ),
-
-              // Add more widgets to display other data as needed
             ]);
           }).toList(),
         );
       },
     ));
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Events : ',
-          style: GoogleFonts.lato(
-            color: const Color.fromARGB(255, 226, 205, 255),
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 80, 0, 0),
-      ),
-      body: Container(
-        alignment: Alignment.topCenter,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 155, 155, 155),
-              Color.fromARGB(255, 202, 202, 202)
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: EventBox,
-      ),
-    );
+    return EventBox;
   }
 }

@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'viewsingleevent.dart';
+import 'viewsingleeventsponsor.dart';
 
-class EventPage extends StatefulWidget {
-  const EventPage({super.key});
+class SponsorEventPage extends StatefulWidget {
+  const SponsorEventPage({super.key});
 
   @override
-  State<EventPage> createState() => _EventPageState();
+  State<SponsorEventPage> createState() => _SponsorEventPageState();
 }
 
-class _EventPageState extends State<EventPage> {
+class _SponsorEventPageState extends State<SponsorEventPage> {
   @override
   Widget build(BuildContext context) {
     Widget EventBox = SingleChildScrollView(
@@ -45,7 +45,7 @@ class _EventPageState extends State<EventPage> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   width: 350,
-                  height: 450,
+                  height: 430,
                   child: Column(
                     children: [
                       Card(
@@ -81,7 +81,27 @@ class _EventPageState extends State<EventPage> {
                           ),
                           textAlign: TextAlign.center),
                       const SizedBox(
-                        height: 5,
+                        height: 10,
+                      ),
+                      Text('${data['time']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text('Max Attendees : ${data['maxattendees']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
                       ),
                       Text('Sponsored By : ${data['sponsorname']}',
                           style: GoogleFonts.lato(
@@ -91,13 +111,13 @@ class _EventPageState extends State<EventPage> {
                           ),
                           textAlign: TextAlign.center),
                       const SizedBox(
-                        height: 5,
+                        height: 10,
                       ),
                       OutlinedButton(
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SingleEventPage(
+                            builder: (context) => SingleEventPagesponsor(
                               postId: data['postId'],
                             ),
                           ),

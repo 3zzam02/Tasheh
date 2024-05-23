@@ -1,24 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'viewsingleevent.dart';
+import 'singlecoupon.dart';
 
-class EventPage extends StatefulWidget {
-  const EventPage({super.key});
+class MyCreatedCouponsPage extends StatefulWidget {
+  const MyCreatedCouponsPage({super.key});
 
   @override
-  State<EventPage> createState() => _EventPageState();
+  State<MyCreatedCouponsPage> createState() => _MyCreatedCouponsPage();
 }
 
-class _EventPageState extends State<EventPage> {
+class _MyCreatedCouponsPage extends State<MyCreatedCouponsPage> {
   @override
   Widget build(BuildContext context) {
     Widget EventBox = SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
       // FirebaseFirestore.instance.collection('posts').where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots(),for own events
       stream: FirebaseFirestore.instance
-          .collection('posts')
-          .where('isfinished', isEqualTo: false)
+          .collection('coupon')
+          .where("Userid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -36,16 +37,16 @@ class _EventPageState extends State<EventPage> {
             return Column(children: [
               const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
               Card(
-                color: const Color.fromARGB(255, 102, 19, 19),
+                color: Color.fromARGB(255, 102, 19, 19),
                 shape: const RoundedRectangleBorder(
                   side: BorderSide(
                     color: Color.fromARGB(255, 0, 0, 0),
                   ),
                 ),
                 child: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
                   width: 350,
-                  height: 450,
+                  height: 350,
                   child: Column(
                     children: [
                       Card(
@@ -54,10 +55,10 @@ class _EventPageState extends State<EventPage> {
                             color: Color.fromARGB(255, 0, 0, 0),
                           ),
                         ),
-                        child: Image.network(
-                          data['postUrl'],
+                        child: Image.asset(
+                          'assets/images/copoun.jpg',
                           cacheHeight: 150,
-                          cacheWidth: 200,
+                          cacheWidth: 250,
                         ),
                       ),
                       const SizedBox(
@@ -73,7 +74,7 @@ class _EventPageState extends State<EventPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(data['location'],
+                      Text('${data['price']}',
                           style: GoogleFonts.lato(
                             color: Colors.white,
                             fontSize: 15,
@@ -81,24 +82,14 @@ class _EventPageState extends State<EventPage> {
                           ),
                           textAlign: TextAlign.center),
                       const SizedBox(
-                        height: 5,
-                      ),
-                      Text('Sponsored By : ${data['sponsorname']}',
-                          style: GoogleFonts.lato(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center),
-                      const SizedBox(
-                        height: 5,
+                        height: 10,
                       ),
                       OutlinedButton(
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SingleEventPage(
-                              postId: data['postId'],
+                            builder: (context) => SingleCouponPage(
+                              couponId: data['couponid'],
                             ),
                           ),
                         ),
@@ -119,7 +110,7 @@ class _EventPageState extends State<EventPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Events : ',
+          'Coupons : ',
           style: GoogleFonts.lato(
             color: const Color.fromARGB(255, 226, 205, 255),
             fontSize: 24,
