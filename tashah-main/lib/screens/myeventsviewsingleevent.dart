@@ -1,9 +1,9 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'editeventpage.dart';
-
 
 class SingleEventPage1 extends StatefulWidget {
   final String postId;
@@ -13,8 +13,75 @@ class SingleEventPage1 extends StatefulWidget {
   State<SingleEventPage1> createState() => _SingleEventPageState();
 }
 
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final FirebaseAuth _auth = FirebaseAuth.instance;
+DocumentSnapshot? postData;
+DocumentSnapshot postData1 = postData1;
+
 class _SingleEventPageState extends State<SingleEventPage1> {
-  DocumentSnapshot? postData; // Nullable DocumentSnapshot
+  // Nullable DocumentSnapshot
+  void getUserInf() async {
+    DocumentSnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    setState(() {
+      postData1 = querySnapshot;
+    });
+  }
+
+  Future<void> addhostinfo() async {
+    try {
+      // Get the current user
+      User? currentUser = _auth.currentUser;
+
+      if (currentUser != null) {
+        String userId = FirebaseAuth.instance.currentUser!.uid;
+
+        DocumentReference docRef =
+            _firestore.collection('posts').doc(widget.postId);
+
+        // Add the userId to the list field
+        await docRef.update({
+          'hostnumber': postData1['phone number'],
+          'hostname': postData1['full name'],
+
+          // 'attendeeslistname': FieldValue.arrayUnion([userData!['full name']])
+        });
+
+        print("Added UserId: $userId to list");
+      } else {
+        print("No user is signed in. or event is already Sponsored");
+      }
+    } catch (e) {
+      print("Error adding UserId to list: $e");
+    }
+  }
+
+  Future<void> updateUsersBalance(List<String> userIds) async {
+    // Initialize Firestore instance
+
+    // Fetch the event points from Firestore (assuming there's a single document storing event points)
+    num eventPoints = postData!['eventpoints'];
+
+    // Batch write to perform multiple updates in a single request
+
+    for (String userId in postData!['attendeeslistid']) {
+      // Reference to the user document
+
+      FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .update({'balance': eventPoints});
+      {
+        setState(() {});
+      }
+
+      // Update the balance field in Firestore
+    }
+  }
 
   @override
   void initState() {
@@ -33,11 +100,13 @@ class _SingleEventPageState extends State<SingleEventPage1> {
   }
 
   finishevent() async {
+    updateUsersBalance;
     bool finsihed = true;
     await FirebaseFirestore.instance
         .collection('posts')
         .doc(widget.postId)
         .update({'isfinished': finsihed});
+    // updateUsersBalance;
     setState(() {});
   }
 
@@ -175,6 +244,16 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                         const SizedBox(
                           height: 10,
                         ),
+                        Text('Date : ${postData!['time']}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Text(
                             'Current Number of Attendees : ${postData!['currentnumber']}',
                             style: GoogleFonts.lato(
@@ -206,7 +285,7 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                           height: 10,
                         ),
                         Text(
-                            'Is this event fisnihed ? : ${postData!['isfinished']}',
+                            'Is this event finished ? : ${postData!['isfinished']}',
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
@@ -249,7 +328,7 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                                       color: Colors.black)),
                             ),
                             const SizedBox(
-                              width: 20,
+                              width: 10,
                             ),
                             OutlinedButton(
                               onPressed: () {
@@ -274,11 +353,22 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                                       color: Colors.black)),
                             ),
                             const SizedBox(
-                              width: 20,
+                              width: 10,
                             ),
                             OutlinedButton(
                               onPressed: finishevent,
                               child: const Text('Finish',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                      color: Colors.black)),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            OutlinedButton(
+                              onPressed: addhostinfo,
+                              child: const Text('Add Info',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15,

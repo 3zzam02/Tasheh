@@ -1,48 +1,49 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'editeventpage.dart';
 
-class SingleEventPage1 extends StatefulWidget {
+class SponsoredEventPage1 extends StatefulWidget {
   final String postId;
-  const SingleEventPage1({Key? key, required this.postId});
+  const SponsoredEventPage1({Key? key, required this.postId});
 
   @override
-  State<SingleEventPage1> createState() => _SingleEventPageState();
+  State<SponsoredEventPage1> createState() => _SponsoredEventPageState();
 }
 
-class _SingleEventPageState extends State<SingleEventPage1> {
+class _SponsoredEventPageState extends State<SponsoredEventPage1> {
   DocumentSnapshot? postData; // Nullable DocumentSnapshot
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<void> removeUserIdToList(
+      String collection, String docId, String listField) async {
+    try {
+      // Get the current user
+      User? currentUser = _auth.currentUser;
 
-  // Future<void> updateUsersBalance(List<String> userIds) async {
-  //   // Initialize Firestore instance
-  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+      if (currentUser != null) {
+        String userId = FirebaseAuth.instance.currentUser!.uid;
 
-  //   // Fetch the event points from Firestore (assuming there's a single document storing event points)
-  //   num eventPoints = postData!['eventpoints'];
+        DocumentReference docRef =
+            _firestore.collection('posts').doc(widget.postId);
 
-  //   // Batch write to perform multiple updates in a single request
+        // Add the userId to the list field
+        String nosponsorid = 'null';
+        String nosponsorlabel = 'Not Sponsored';
+        await docRef.update({
+          'sponsorid': nosponsorid,
+          'sponsorname': nosponsorlabel,
+        });
 
-  //   for (String userId in postData!['attendeeslistid']) {
-  //     // Reference to the user document
-
-  //     FirebaseFirestore.instance
-  //         .collection('users')
-  //         .doc(userId)
-  //         .snapshots()
-  //         .map((snapshot) => snapshot.data()?['balance'] ?? 0);
-
-  //     FirebaseFirestore.instance
-  //         .collection('users')
-  //         .doc(userId)
-  //         .update({'balance': eventPoints}).then((_) {
-  //       setState(() {});
-  //     });
-
-  //     // Update the balance field in Firestore
-  //   }
-  // }
+        print("Added UserId: $userId to list");
+      } else {
+        print("No user is signed in.");
+      }
+    } catch (e) {
+      print("Error adding UserId to list: $e");
+    }
+  }
 
   @override
   void initState() {
@@ -58,16 +59,6 @@ class _SingleEventPageState extends State<SingleEventPage1> {
     setState(() {
       postData = querySnapshot;
     });
-  }
-
-  finishevent() async {
-    bool finsihed = true;
-    await FirebaseFirestore.instance
-        .collection('posts')
-        .doc(widget.postId)
-        .update({'isfinished': finsihed});
-    // updateUsersBalance;
-    setState(() {});
   }
 
   @override
@@ -245,7 +236,7 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                           height: 10,
                         ),
                         Text(
-                            'Is this event fisnihed ? : ${postData!['isfinished']}',
+                            'Is this event finished ? : ${postData!['isfinished']}',
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
@@ -253,77 +244,37 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            OutlinedButton(
-                              onPressed: () {
-                                AwesomeDialog(
-                                  context: context,
-                                  dialogType: DialogType.warning,
-                                  animType: AnimType.rightSlide,
-                                  title: 'Warning',
-                                  desc: 'Delete this Event ?',
-                                  descTextStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  titleTextStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  btnCancelOnPress: () {
-                                    print('cancel');
-                                  },
-                                  btnOkOnPress: () async {
-                                    await FirebaseFirestore.instance
-                                        .collection('posts')
-                                        .doc(widget.postId)
-                                        .delete();
-                                    Navigator.of(context)
-                                        .pop('SingleEventPage1');
-                                  },
-                                ).show();
+                        OutlinedButton(
+                          onPressed: () {
+                            AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.warning,
+                              animType: AnimType.rightSlide,
+                              title: 'Warning',
+                              desc: 'Unsponsor this Event ?',
+                              descTextStyle:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              titleTextStyle:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              btnCancelOnPress: () {
+                                print('cancel');
                               },
-                              child: const Text('Remove',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EditEvemtinfo(
-                                      postId: widget.postId,
-                                      oldtitle: postData!['title'],
-                                      olddescription: postData!['description'],
-                                      oldlocation: postData!['location'],
-                                      oldmaxattendees:
-                                          postData!['maxattendees'],
-                                    ),
-                                  ),
-                                );
+                              btnOkOnPress: () async {
+                                Navigator.of(context).pop('MyEventPage');
+
+                                await removeUserIdToList('posts', widget.postId,
+                                    FirebaseAuth.instance.currentUser!.uid);
                               },
-                              child: const Text('Edit',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            OutlinedButton(
-                              onPressed: finishevent,
-                              child: const Text('Finish',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
-                          ],
+                            ).show();
+                          },
+                          child: const Text('Unsponsor',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black)),
+                        ),
+                        const SizedBox(
+                          width: 20,
                         )
                       ],
                     ),

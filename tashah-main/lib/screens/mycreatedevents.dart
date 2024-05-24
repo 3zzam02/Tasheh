@@ -47,7 +47,7 @@ class _MyCreatedEventPage extends State<MyCreatedEventPage> {
                 child: Container(
                   padding: EdgeInsets.all(10),
                   width: 350,
-                  height: 430,
+                  height: 480,
                   child: Column(
                     children: [
                       Card(
@@ -85,6 +85,16 @@ class _MyCreatedEventPage extends State<MyCreatedEventPage> {
                       const SizedBox(
                         height: 10,
                       ),
+                      Text('${data['time']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Text(
                           'Current Number of Attendees : ${data['currentnumber']}',
                           style: GoogleFonts.lato(
@@ -113,6 +123,15 @@ class _MyCreatedEventPage extends State<MyCreatedEventPage> {
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text('Is this event finished ? : ${data['isfinished']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          )),
                       const SizedBox(
                         height: 10,
                       ),

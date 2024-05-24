@@ -40,7 +40,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 26,
                 ),
-                reusableTextField("Enter UserName", Icons.person_outline, false,
+                reusableTextField("Enter Email", Icons.person_outline, false,
                     _emailTextController),
                 const SizedBox(
                   height: 18,

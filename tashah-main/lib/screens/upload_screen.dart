@@ -25,6 +25,7 @@ class _up_screenState extends State<up_screen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
   final NumberEditingTextController _maxattendeesController =
       NumberEditingTextController.integer();
 
@@ -39,6 +40,7 @@ class _up_screenState extends State<up_screen> {
         _descriptionController.text,
         _locationController.text,
         _maxattendeesController.number,
+        _dateController.text,
         _file!,
       );
       if (res == 'success') {
@@ -65,48 +67,52 @@ class _up_screenState extends State<up_screen> {
   }
 
   _imageSelect(BuildContext context) async {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return SimpleDialog(
-            title: Text('Select Image'),
-            children: [
-              SimpleDialogOption(
-                padding: EdgeInsets.all(20),
-                child: Text('Take a Photo'),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  Uint8List file = await pickImage(
-                    ImageSource.camera,
-                  );
-                  setState(() {
-                    _file = file;
-                  });
-                },
-              ),
-              SimpleDialogOption(
-                padding: EdgeInsets.all(20),
-                child: Text('Choose From Gallery'),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  Uint8List file = await pickImage(
-                    ImageSource.gallery,
-                  );
-                  setState(() {
-                    _file = file;
-                  });
-                },
-              ),
-              SimpleDialogOption(
-                padding: EdgeInsets.all(20),
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        });
+    return _isLoading == true
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : showDialog(
+            context: context,
+            builder: (context) {
+              return SimpleDialog(
+                title: Text('Select Image'),
+                children: [
+                  SimpleDialogOption(
+                    padding: EdgeInsets.all(20),
+                    child: Text('Take a Photo'),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      Uint8List file = await pickImage(
+                        ImageSource.camera,
+                      );
+                      setState(() {
+                        _file = file;
+                      });
+                    },
+                  ),
+                  SimpleDialogOption(
+                    padding: EdgeInsets.all(20),
+                    child: Text('Choose From Gallery'),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      Uint8List file = await pickImage(
+                        ImageSource.gallery,
+                      );
+                      setState(() {
+                        _file = file;
+                      });
+                    },
+                  ),
+                  SimpleDialogOption(
+                    padding: EdgeInsets.all(20),
+                    child: Text('Cancel'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            });
   }
 
   @override
@@ -225,6 +231,16 @@ class _up_screenState extends State<up_screen> {
                               controller: _maxattendeesController,
                               decoration: const InputDecoration(
                                 hintText: 'Maximum Number of Attendees',
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: TextField(
+                              controller: _dateController,
+                              decoration: const InputDecoration(
+                                hintText:
+                                    'Write Date and Time : (Year-Month-Day-hour)',
                                 border: InputBorder.none,
                               ),
                             ),

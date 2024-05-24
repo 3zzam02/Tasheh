@@ -12,9 +12,11 @@ class SingleEventPage extends StatefulWidget {
   State<SingleEventPage> createState() => _SingleEventPageState();
 }
 
+DocumentSnapshot postData2 = postData2;
+
 class _SingleEventPageState extends State<SingleEventPage> {
   DocumentSnapshot? postData;
-  DocumentSnapshot? postData2; // Nullable DocumentSnapshot
+  // Nullable DocumentSnapshot
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -225,6 +227,16 @@ class _SingleEventPageState extends State<SingleEventPage> {
                             ),
                           ],
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text('Date : ${postData!['time']}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
                         const SizedBox(
                           height: 10,
                         ),

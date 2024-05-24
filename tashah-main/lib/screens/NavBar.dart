@@ -58,13 +58,13 @@ class _MyButtomNavBarState extends State<NavBar> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.add), label: "Add Event"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.event), label: "My Events"),
+                    icon: Icon(Icons.event), label: "Events"),
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(icon: Icon(Icons.shop), label: "Shop"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person_outline), label: "Profile"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.event), label: "add coupon"),
+                    icon: Icon(Icons.assignment_ind_outlined), label: "Sponsor"),
               ]),
         ),
       ),

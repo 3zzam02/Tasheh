@@ -45,7 +45,7 @@ class _EventPageState extends State<EventPage> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   width: 350,
-                  height: 450,
+                  height: 430,
                   child: Column(
                     children: [
                       Card(
@@ -81,7 +81,27 @@ class _EventPageState extends State<EventPage> {
                           ),
                           textAlign: TextAlign.center),
                       const SizedBox(
-                        height: 5,
+                        height: 10,
+                      ),
+                      Text('${data['time']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text('Max Attendees : ${data['maxattendees']}',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
                       ),
                       Text('Sponsored By : ${data['sponsorname']}',
                           style: GoogleFonts.lato(
@@ -91,7 +111,7 @@ class _EventPageState extends State<EventPage> {
                           ),
                           textAlign: TextAlign.center),
                       const SizedBox(
-                        height: 5,
+                        height: 10,
                       ),
                       OutlinedButton(
                         onPressed: () => Navigator.push(

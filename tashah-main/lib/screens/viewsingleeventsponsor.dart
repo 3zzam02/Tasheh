@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,7 +52,7 @@ class _SingleEventPagesponsorState extends State<SingleEventPagesponsor> {
         // Add the userId to the list field
         await docRef.update({
           'sponsorid': userId,
-          'sponsorname': postData1!['full name'],
+          'sponsorname': postData1!['labelname'],
 
           // 'attendeeslistname': FieldValue.arrayUnion([userData!['full name']])
         });
@@ -215,6 +214,16 @@ class _SingleEventPagesponsorState extends State<SingleEventPagesponsor> {
                             ),
                           ],
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text('Date : ${postData!['time']}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
                         const SizedBox(
                           height: 10,
                         ),

@@ -21,6 +21,8 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
   NumberEditingTextController phoneNumber =
       NumberEditingTextController.integer();
   NumberEditingTextController balance = NumberEditingTextController.integer();
+  bool isponsor = false;
+  String labelname = 'null';
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   adduserinfo() async {
@@ -32,6 +34,8 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
       'address': address.text,
       'phone number': phoneNumber.number,
       'balance': balance.number = 0,
+      'isponsor': isponsor,
+      'labelname': labelname,
     });
     Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
   }

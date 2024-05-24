@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
-
 class AttendedEventPage1 extends StatefulWidget {
   final String postId;
   const AttendedEventPage1({Key? key, required this.postId});
@@ -196,6 +194,16 @@ class _AttendedEventPageState extends State<AttendedEventPage1> {
                         const SizedBox(
                           height: 10,
                         ),
+                        Text('Date : ${postData!['time']}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Text(
                             'Current Number of Attendees : ${postData!['currentnumber']}',
                             style: GoogleFonts.lato(
@@ -227,7 +235,7 @@ class _AttendedEventPageState extends State<AttendedEventPage1> {
                           height: 10,
                         ),
                         Text(
-                            'Is this event fisnihed ? : ${postData!['isfinished']}',
+                            'Is this event finished ? : ${postData!['isfinished']}',
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,

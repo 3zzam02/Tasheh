@@ -66,6 +66,10 @@ class _EventView extends State<EventView> {
                           const SizedBox(
                             height: 10,
                           ),
+                          Text(data['time']),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Text(data['location']),
                           const SizedBox(
                             height: 10,

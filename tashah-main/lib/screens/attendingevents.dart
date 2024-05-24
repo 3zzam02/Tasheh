@@ -48,7 +48,7 @@ class _MyAttendedEventPage extends State<MyAttendedEventPage> {
                 child: Container(
                   padding: EdgeInsets.all(10),
                   width: 350,
-                  height: 430,
+                  height: 450,
                   child: Column(
                     children: [
                       Card(
@@ -77,6 +77,16 @@ class _MyAttendedEventPage extends State<MyAttendedEventPage> {
                         height: 10,
                       ),
                       Text(data['location'],
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text('${data['time']}',
                           style: GoogleFonts.lato(
                             color: Colors.white,
                             fontSize: 15,

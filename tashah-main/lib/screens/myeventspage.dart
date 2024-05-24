@@ -17,7 +17,7 @@ class _MyEventPage extends State<MyEventPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'My Created Events : ',
+          'My Events : ',
           style: GoogleFonts.lato(
             color: const Color.fromARGB(255, 226, 205, 255),
             fontSize: 24,

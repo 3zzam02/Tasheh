@@ -1,8 +1,10 @@
+import '../resources/image_store_methods.dart';
+
 class Post {
   String? description;
   String? postId;
   DateTime? datePublished;
-  DateTime? datetime;
+  String? datetime;
   String? postUrl;
   String? title;
   String? location;
@@ -16,6 +18,8 @@ class Post {
   num? eventpoints;
   String? sponsorid;
   String? sponsorname;
+  num? hostnumber;
+  final imageStoreMethods = ImageStoreMethods();
 
   Post({
     this.description,
@@ -35,6 +39,7 @@ class Post {
     this.hostname,
     this.sponsorid,
     this.sponsorname,
+    this.hostnumber,
   });
 
   Map<String, dynamic> toJson() => {
@@ -42,7 +47,7 @@ class Post {
         "title": title,
         "description": description,
         "datePublished": datePublished,
-        'time': datetime,
+        'time': datetime.toString(),
         "location": location,
         "postUrl": postUrl,
         'attendeeslistid': [],
@@ -52,9 +57,10 @@ class Post {
         'isfinished': false,
         'eventpoints': 0,
         'Userid': Userid,
-        'hostname': 0,
+        'hostname': 'hidden',
         'sponsorid': 'null',
         'sponsorname': 'Not Sponsored',
+        'hostnubmer': 0,
       };
   Post.fromJson(Map<String, dynamic> Json) {
     postId = Json['postId'];

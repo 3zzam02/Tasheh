@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -38,7 +37,7 @@ class _EditEventinfo extends State<EditEvemtinfo> {
 
   CollectionReference posts = FirebaseFirestore.instance.collection('posts');
 
-  edituserinfo() async {
+  editeventinfo() async {
     posts.doc(widget.postId).update({
       'title': title.text,
       'description': description.text,
@@ -183,7 +182,7 @@ class _EditEventinfo extends State<EditEvemtinfo> {
               ),
               OutlinedButton(
                 style: OutlinedButton.styleFrom(backgroundColor: Colors.white),
-                onPressed: edituserinfo,
+                onPressed: editeventinfo,
                 child: const Text(
                   'Save',
                   style: TextStyle(
