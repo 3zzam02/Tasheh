@@ -13,7 +13,7 @@ class SingleEventPage extends StatefulWidget {
   State<SingleEventPage> createState() => _SingleEventPageState();
 }
 
-DocumentSnapshot? postData2;
+DocumentSnapshot postData2 = postData2;
 DocumentSnapshot? postData;
 // Nullable DocumentSnapshot
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -52,6 +52,13 @@ class _SingleEventPageState extends State<SingleEventPage> {
         num max = postData!['maxattendees'];
         List<String> List1 =
             List<String>.from(postData!['attendeeslistid'] as List);
+        DocumentSnapshot querySnapshot1 = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get();
+        setState(() {
+          postData2 = querySnapshot1;
+        });
 
         // String username = postData2!['full name'];
         if (counter < max && List1.contains(userId) == false) {
@@ -62,6 +69,8 @@ class _SingleEventPageState extends State<SingleEventPage> {
           await docRef.update({
             'attendeeslistid': FieldValue.arrayUnion([userId]),
             'currentnumber': counter += 1,
+            'attendeeslistnames':
+                FieldValue.arrayUnion([postData2['full name']])
             // 'attendeeslistnames': FieldValue.arrayUnion([username]),
           });
 

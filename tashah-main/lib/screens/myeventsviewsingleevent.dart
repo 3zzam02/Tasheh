@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasheh/utils/upload.dart';
+import 'attendeeslistnames.dart';
 import 'editeventpage.dart';
 
 class SingleEventPage1 extends StatefulWidget {
@@ -393,16 +394,26 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                             const SizedBox(
                               width: 10,
                             ),
-                            // OutlinedButton(
-                            //   onPressed: addhostinfo,
-                            //   child: const Text('Add Info',
-                            //       style: TextStyle(
-                            //           fontWeight: FontWeight.bold,
-                            //           fontSize: 15,
-                            //           color: Colors.black)),
-                            // ),
                           ],
-                        )
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        OutlinedButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Attendeesnameslist(
+                                postId: postData!['postId'],
+                              ),
+                            ),
+                          ),
+                          child: const Text('View Attendees List',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black)),
+                        ),
                       ],
                     ),
                   ),
