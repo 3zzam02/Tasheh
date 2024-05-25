@@ -19,18 +19,21 @@ class UploadCoupon extends StatefulWidget {
 class _UploadCoupon extends State<UploadCoupon> {
   GlobalKey<FormState> formState = GlobalKey<FormState>();
   TextEditingController title = TextEditingController();
+  TextEditingController label = TextEditingController();
 
   NumberEditingTextController price = NumberEditingTextController.integer();
 
   CollectionReference coupon = FirebaseFirestore.instance.collection('coupon');
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   addcoupon() async {
     coupon.add({
       'couponid': _firestore.collection('coupon').doc().id,
       'Userid': FirebaseAuth.instance.currentUser!.uid,
       'title': title.text,
       'price': price.number,
-    }); 
+      'Label': label.text,
+    });
     showSnackBar('Coupon Added', context);
     Navigator.of(context).pop('NavBar');
   }
@@ -78,6 +81,21 @@ class _UploadCoupon extends State<UploadCoupon> {
                   filled: true,
                   fillColor: Colors.white,
                   hintText: 'Coupon Title  : (required)',
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextField(
+                controller: label,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  contentPadding: const EdgeInsets.all(10),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Your Label  : (required)',
                 ),
               ),
               const SizedBox(

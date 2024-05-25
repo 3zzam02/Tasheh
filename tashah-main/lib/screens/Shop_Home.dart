@@ -46,7 +46,7 @@ class _Shop_PageState extends State<Shop_Page> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   width: 350,
-                  height: 320,
+                  height: 350,
                   child: Column(
                     children: [
                       Card(
@@ -63,7 +63,7 @@ class _Shop_PageState extends State<Shop_Page> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Text(data['title'],
+                      Text(data['Label'],
                           style: GoogleFonts.lato(
                             color: Colors.white,
                             fontSize: 28,
@@ -73,7 +73,17 @@ class _Shop_PageState extends State<Shop_Page> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text('Price: ${data['price']}',
+                      Text(data['title'],
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text('Price : ${data['price']}',
                           style: GoogleFonts.lato(
                             color: Colors.white,
                             fontSize: 15,

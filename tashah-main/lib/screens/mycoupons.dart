@@ -63,7 +63,7 @@ class _MyCreatedCouponsPage extends State<MyCreatedCouponsPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(data['title'],
+                      Text(data['Label'],
                           style: GoogleFonts.lato(
                             color: Colors.white,
                             fontSize: 28,
@@ -73,7 +73,17 @@ class _MyCreatedCouponsPage extends State<MyCreatedCouponsPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text('${data['price']}',
+                      Text(data['title'],
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text('Price : ${data['price']}',
                           style: GoogleFonts.lato(
                             color: Colors.white,
                             fontSize: 15,

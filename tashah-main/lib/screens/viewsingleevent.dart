@@ -50,9 +50,11 @@ class _SingleEventPageState extends State<SingleEventPage> {
         String userId = FirebaseAuth.instance.currentUser!.uid;
         num counter = postData!['currentnumber'];
         num max = postData!['maxattendees'];
+        List<String> List1 =
+            List<String>.from(postData!['attendeeslistid'] as List);
 
         // String username = postData2!['full name'];
-        if (counter < max) {
+        if (counter < max && List1.contains(userId) == false) {
           DocumentReference docRef =
               _firestore.collection('posts').doc(widget.postId);
 

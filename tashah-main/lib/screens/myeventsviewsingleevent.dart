@@ -1,5 +1,4 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,8 +13,6 @@ class SingleEventPage1 extends StatefulWidget {
   State<SingleEventPage1> createState() => _SingleEventPageState();
 }
 
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-final FirebaseAuth _auth = FirebaseAuth.instance;
 DocumentSnapshot? postData;
 DocumentSnapshot postData1 = postData1;
 
