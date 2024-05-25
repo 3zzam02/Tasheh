@@ -12,10 +12,13 @@ class AttendedEventPage1 extends StatefulWidget {
   State<AttendedEventPage1> createState() => _AttendedEventPageState();
 }
 
+DocumentSnapshot postData2 = postData2;
+
 class _AttendedEventPageState extends State<AttendedEventPage1> {
   DocumentSnapshot? postData; // Nullable DocumentSnapshot
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   Future<void> removeUserIdToList(
       String collection, String docId, String listField) async {
     try {
@@ -26,6 +29,14 @@ class _AttendedEventPageState extends State<AttendedEventPage1> {
         String userId = FirebaseAuth.instance.currentUser!.uid;
         num counter = postData!['currentnumber'];
 
+        DocumentSnapshot querySnapshot1 = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get();
+        setState(() {
+          postData2 = querySnapshot1;
+        });
+
         DocumentReference docRef =
             _firestore.collection('posts').doc(widget.postId);
 
@@ -33,6 +44,8 @@ class _AttendedEventPageState extends State<AttendedEventPage1> {
         await docRef.update({
           'attendeeslistid': FieldValue.arrayRemove([userId]),
           'currentnumber': counter -= 1,
+          'attendeeslistnames':
+              FieldValue.arrayRemove([postData2['full name']]),
         });
 
         print("Added UserId: $userId to list");
