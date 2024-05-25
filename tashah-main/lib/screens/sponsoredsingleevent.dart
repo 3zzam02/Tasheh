@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasheh/utils/upload.dart';
 
 class SponsoredEventPage1 extends StatefulWidget {
   final String postId;
@@ -23,8 +24,6 @@ class _SponsoredEventPageState extends State<SponsoredEventPage1> {
       User? currentUser = _auth.currentUser;
 
       if (currentUser != null) {
-        String userId = FirebaseAuth.instance.currentUser!.uid;
-
         DocumentReference docRef =
             _firestore.collection('posts').doc(widget.postId);
 
@@ -36,7 +35,7 @@ class _SponsoredEventPageState extends State<SponsoredEventPage1> {
           'sponsorname': nosponsorlabel,
         });
 
-        print("Added UserId: $userId to list");
+        showSnackBar('Sponsorship removed', context);
       } else {
         print("No user is signed in.");
       }
@@ -241,6 +240,26 @@ class _SponsoredEventPageState extends State<SponsoredEventPage1> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
                                 color: Color.fromARGB(255, 0, 0, 0))),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text('Hosted By : ${postData!['hostname']}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text('Contact : 0${postData!['hostnumber']} (WhatsApp)',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
                         const SizedBox(
                           height: 10,
                         ),

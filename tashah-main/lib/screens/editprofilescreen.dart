@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -31,12 +30,11 @@ class _Edituserinfo extends State<Edituserinfo> {
   NumberEditingTextController phoneNumber =
       NumberEditingTextController.integer();
   NumberEditingTextController balance = NumberEditingTextController.integer();
-
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   edituserinfo() async {
     String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
-    users.doc(uid).update({
+    await users.doc(uid).update({
       'full name': fullName.text,
       'address': address.text,
       'phone number': phoneNumber.number,
@@ -44,6 +42,7 @@ class _Edituserinfo extends State<Edituserinfo> {
 
     isloading = false;
     setState(() {});
+
     Navigator.of(context).pop('profile_screen');
   }
 
@@ -148,7 +147,7 @@ class _Edituserinfo extends State<Edituserinfo> {
                   contentPadding: const EdgeInsets.all(10),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Phone Number :+962',
+                  hintText: 'Phone Number : 962',
                 ),
               ),
               const SizedBox(

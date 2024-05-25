@@ -243,6 +243,26 @@ class _AttendedEventPageState extends State<AttendedEventPage1> {
                         const SizedBox(
                           height: 10,
                         ),
+                        Text('Hosted By : ${postData!['hostname']}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text('Contact : 0${postData!['hostnumber']} (WhatsApp)',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         OutlinedButton(
                           onPressed: () {
                             AwesomeDialog(

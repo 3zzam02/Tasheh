@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasheh/utils/upload.dart';
 
 class SingleEventPagesponsor extends StatefulWidget {
   final String postId;
@@ -57,9 +58,9 @@ class _SingleEventPagesponsorState extends State<SingleEventPagesponsor> {
           // 'attendeeslistname': FieldValue.arrayUnion([userData!['full name']])
         });
 
-        print("Added UserId: $userId to list");
+        showSnackBar('Sponsorship succeeded', context);
       } else {
-        print("No user is signed in. or event is already Sponsored");
+        showSnackBar('Event already Sponsored', context);
       }
     } catch (e) {
       print("Error adding UserId to list: $e");
@@ -248,6 +249,26 @@ class _SingleEventPagesponsorState extends State<SingleEventPagesponsor> {
                           height: 10,
                         ),
                         Text('Sponsored By : ${postData!['sponsorname']}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text('Hosted By : ${postData!['hostname']}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text('Contact : 0${postData!['hostnumber']} (WhatsApp)',
                             style: GoogleFonts.lato(
                               color: Colors.black,
                               fontSize: 15,

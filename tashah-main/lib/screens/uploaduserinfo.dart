@@ -21,7 +21,6 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
   NumberEditingTextController phoneNumber =
       NumberEditingTextController.integer();
   NumberEditingTextController balance = NumberEditingTextController.integer();
-  bool isponsor = false;
   String labelname = 'null';
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -34,7 +33,6 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
       'address': address.text,
       'phone number': phoneNumber.number,
       'balance': balance.number = 0,
-      'isponsor': isponsor,
       'labelname': labelname,
     });
     Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
@@ -112,7 +110,7 @@ class _Uploaduserinfo extends State<Uploaduserinfo> {
                   contentPadding: const EdgeInsets.all(10),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Your Phone Number :+962 (required)',
+                  hintText: 'Your Phone Number : (required)',
                 ),
               ),
               const SizedBox(

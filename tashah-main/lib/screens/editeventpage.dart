@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_editing_controller/number_editing_controller.dart';
 
+import '../utils/upload.dart';
+
 class EditEvemtinfo extends StatefulWidget {
   final String postId;
 
@@ -15,12 +17,14 @@ class EditEvemtinfo extends StatefulWidget {
     required this.olddescription,
     required this.oldlocation,
     required this.oldmaxattendees,
+    required this.oldhostnumer,
   });
 
   final String oldtitle;
   final String olddescription;
   final String oldlocation;
   final num oldmaxattendees;
+  final num oldhostnumer;
 
   @override
   State<StatefulWidget> createState() => _EditEventinfo();
@@ -34,15 +38,19 @@ class _EditEventinfo extends State<EditEvemtinfo> {
   TextEditingController location = TextEditingController();
   NumberEditingTextController maxattendees =
       NumberEditingTextController.integer();
+  NumberEditingTextController _hostnumber =
+      NumberEditingTextController.integer();
 
   CollectionReference posts = FirebaseFirestore.instance.collection('posts');
 
   editeventinfo() async {
-    posts.doc(widget.postId).update({
+    showSnackBar('Event Edited', context);
+    await posts.doc(widget.postId).update({
       'title': title.text,
       'description': description.text,
       'location': location.text,
       'maxattendees': maxattendees.number,
+      'hostnumber': _hostnumber.number
     });
 
     isloading = false;
@@ -57,6 +65,7 @@ class _EditEventinfo extends State<EditEvemtinfo> {
     description.text = widget.olddescription;
     location.text = widget.oldlocation;
     maxattendees.number = widget.oldmaxattendees;
+    _hostnumber.number = widget.oldhostnumer;
   }
 
   @override
@@ -175,6 +184,28 @@ class _EditEventinfo extends State<EditEvemtinfo> {
                   filled: true,
                   fillColor: Colors.white,
                   hintText: 'Max Number of Attendees',
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'Edit Host Phone Number :',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              TextField(
+                controller: _hostnumber,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  contentPadding: const EdgeInsets.all(10),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Host Phone Number :',
                 ),
               ),
               const SizedBox(

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'singlecoupon.dart';
 
 class MyCreatedCouponsPage extends StatefulWidget {
   const MyCreatedCouponsPage({super.key});
@@ -81,20 +80,6 @@ class _MyCreatedCouponsPage extends State<MyCreatedCouponsPage> {
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      OutlinedButton(
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SingleCouponPage(
-                              couponId: data['couponid'],
-                            ),
-                          ),
-                        ),
-                        child: const Text('View'),
-                      ),
                     ],
                   ),
                 ),

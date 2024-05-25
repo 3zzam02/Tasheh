@@ -26,6 +26,9 @@ class _up_screenState extends State<up_screen> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _hostController = TextEditingController();
+  final NumberEditingTextController _hostnumberController =
+      NumberEditingTextController.integer();
   final NumberEditingTextController _maxattendeesController =
       NumberEditingTextController.integer();
 
@@ -41,6 +44,8 @@ class _up_screenState extends State<up_screen> {
         _locationController.text,
         _maxattendeesController.number,
         _dateController.text,
+        _hostController.text,
+        _hostnumberController.number,
         _file!,
       );
       if (res == 'success') {
@@ -241,6 +246,24 @@ class _up_screenState extends State<up_screen> {
                               decoration: const InputDecoration(
                                 hintText:
                                     'Write Date and Time : (Year-Month-Day-hour)',
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: TextField(
+                              controller: _hostController,
+                              decoration: const InputDecoration(
+                                hintText: 'Write Host Name : ',
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: TextField(
+                              controller: _hostnumberController,
+                              decoration: const InputDecoration(
+                                hintText: 'Write Host Number : 07********',
                                 border: InputBorder.none,
                               ),
                             ),

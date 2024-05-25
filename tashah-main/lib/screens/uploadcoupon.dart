@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_editing_controller/number_editing_controller.dart';
+import 'package:tasheh/utils/upload.dart';
 
 class UploadCoupon extends StatefulWidget {
   const UploadCoupon({super.key});
@@ -29,8 +30,8 @@ class _UploadCoupon extends State<UploadCoupon> {
       'Userid': FirebaseAuth.instance.currentUser!.uid,
       'title': title.text,
       'price': price.number,
-    });
-
+    }); 
+    showSnackBar('Coupon Added', context);
     Navigator.of(context).pop('NavBar');
   }
 

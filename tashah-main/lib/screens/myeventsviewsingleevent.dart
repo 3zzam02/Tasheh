@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasheh/utils/upload.dart';
 import 'editeventpage.dart';
 
 class SingleEventPage1 extends StatefulWidget {
@@ -30,33 +31,19 @@ class _SingleEventPageState extends State<SingleEventPage1> {
     });
   }
 
-  Future<void> addhostinfo() async {
-    try {
-      // Get the current user
-      User? currentUser = _auth.currentUser;
+  // Future<void> addhostinfo() async {
+  //   await FirebaseFirestore.instance
+  //       .collection('posts')
+  //       .doc(widget.postId)
+  //       .update({
+  //     'hostnumber': postData1['phone number'],
+  //     'hostname': postData1['full name'],
+  //   });
+  //   // updateUsersBalance;
+  //   setState(() {});
 
-      if (currentUser != null) {
-        String userId = FirebaseAuth.instance.currentUser!.uid;
-
-        DocumentReference docRef =
-            _firestore.collection('posts').doc(widget.postId);
-
-        // Add the userId to the list field
-        await docRef.update({
-          'hostnumber': postData1['phone number'],
-          'hostname': postData1['full name'],
-
-          // 'attendeeslistname': FieldValue.arrayUnion([userData!['full name']])
-        });
-
-        print("Added UserId: $userId to list");
-      } else {
-        print("No user is signed in. or event is already Sponsored");
-      }
-    } catch (e) {
-      print("Error adding UserId to list: $e");
-    }
-  }
+  //   // 'attendeeslistname': FieldValue.arrayUnion([userData!['full name']])
+  // }
 
   Future<void> updateUsersBalance(List<String> userIds) async {
     // Initialize Firestore instance
@@ -102,6 +89,7 @@ class _SingleEventPageState extends State<SingleEventPage1> {
   finishevent() async {
     updateUsersBalance;
     bool finsihed = true;
+    showSnackBar('Event Finished', context);
     await FirebaseFirestore.instance
         .collection('posts')
         .doc(widget.postId)
@@ -293,6 +281,26 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                         const SizedBox(
                           height: 10,
                         ),
+                        Text('Hosted By : ${postData!['hostname']}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text('Contact : 0${postData!['hostnumber']} (WhatsApp)',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -342,6 +350,7 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                                       oldlocation: postData!['location'],
                                       oldmaxattendees:
                                           postData!['maxattendees'],
+                                      oldhostnumer: postData!['hostnumber'],
                                     ),
                                   ),
                                 );
@@ -356,24 +365,44 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                               width: 10,
                             ),
                             OutlinedButton(
-                              onPressed: finishevent,
+                              onPressed: () {
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.warning,
+                                  animType: AnimType.rightSlide,
+                                  title: 'Warning',
+                                  desc: 'Finish Event ?',
+                                  descTextStyle: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  titleTextStyle: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  btnCancelOnPress: () {
+                                    print('cancel');
+                                  },
+                                  btnOkOnPress: () async {
+                                    await finishevent();
+                                    Navigator.of(context)
+                                        .pop('SingleEventPage1');
+                                  },
+                                ).show();
+                              },
                               child: const Text('Finish',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15,
                                       color: Colors.black)),
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            OutlinedButton(
-                              onPressed: addhostinfo,
-                              child: const Text('Add Info',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)),
-                            ),
+                            // const SizedBox(
+                            //   width: 10,
+                            // ),
+                            // OutlinedButton(
+                            //   onPressed: addhostinfo,
+                            //   child: const Text('Add Info',
+                            //       style: TextStyle(
+                            //           fontWeight: FontWeight.bold,
+                            //           fontSize: 15,
+                            //           color: Colors.black)),
+                            // ),
                           ],
                         )
                       ],

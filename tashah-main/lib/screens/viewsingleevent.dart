@@ -1,8 +1,9 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../utils/upload.dart';
 
 class SingleEventPage extends StatefulWidget {
   final String postId;
@@ -12,14 +13,13 @@ class SingleEventPage extends StatefulWidget {
   State<SingleEventPage> createState() => _SingleEventPageState();
 }
 
-DocumentSnapshot postData2 = postData2;
+DocumentSnapshot? postData2;
+DocumentSnapshot? postData;
+// Nullable DocumentSnapshot
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class _SingleEventPageState extends State<SingleEventPage> {
-  DocumentSnapshot? postData;
-  // Nullable DocumentSnapshot
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
   // DocumentSnapshot? userData;
   // void getUserInfp() async {
   //   DocumentSnapshot querySnapshot1 = await FirebaseFirestore.instance
@@ -50,6 +50,7 @@ class _SingleEventPageState extends State<SingleEventPage> {
         String userId = FirebaseAuth.instance.currentUser!.uid;
         num counter = postData!['currentnumber'];
         num max = postData!['maxattendees'];
+
         // String username = postData2!['full name'];
         if (counter < max) {
           DocumentReference docRef =
@@ -62,14 +63,9 @@ class _SingleEventPageState extends State<SingleEventPage> {
             // 'attendeeslistnames': FieldValue.arrayUnion([username]),
           });
 
-          print("Added UserId: $userId to list");
+          showSnackBar('Joined', context);
         } else {
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.error,
-            title: 'Falied to Join',
-            desc: 'Maximum Number of Attendees reached',
-          );
+          showSnackBar('Maximum number of Attendees reached', context);
           //return SnackBar(content: content)
         }
       } else {
@@ -267,6 +263,29 @@ class _SingleEventPageState extends State<SingleEventPage> {
                               fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text('Hosted By : ${postData!['hostname']}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text('Contact : 0${postData!['hostnumber']} (WhatsApp)',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         const SizedBox(
                           height: 10,
                         ),
