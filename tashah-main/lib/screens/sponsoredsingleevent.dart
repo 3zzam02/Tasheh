@@ -33,6 +33,7 @@ class _SponsoredEventPageState extends State<SponsoredEventPage1> {
         await docRef.update({
           'sponsorid': nosponsorid,
           'sponsorname': nosponsorlabel,
+          'eventpoints': 0,
         });
 
         showSnackBar('Sponsorship removed', context);

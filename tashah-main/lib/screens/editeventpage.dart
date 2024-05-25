@@ -38,7 +38,7 @@ class _EditEventinfo extends State<EditEvemtinfo> {
   TextEditingController location = TextEditingController();
   NumberEditingTextController maxattendees =
       NumberEditingTextController.integer();
-  NumberEditingTextController _hostnumber =
+  NumberEditingTextController hostnumber =
       NumberEditingTextController.integer();
 
   CollectionReference posts = FirebaseFirestore.instance.collection('posts');
@@ -50,7 +50,7 @@ class _EditEventinfo extends State<EditEvemtinfo> {
       'description': description.text,
       'location': location.text,
       'maxattendees': maxattendees.number,
-      'hostnumber': _hostnumber.number
+      'hostnumber': hostnumber.number
     });
 
     isloading = false;
@@ -65,7 +65,7 @@ class _EditEventinfo extends State<EditEvemtinfo> {
     description.text = widget.olddescription;
     location.text = widget.oldlocation;
     maxattendees.number = widget.oldmaxattendees;
-    _hostnumber.number = widget.oldhostnumer;
+    hostnumber.number = widget.oldhostnumer;
   }
 
   @override
@@ -197,7 +197,7 @@ class _EditEventinfo extends State<EditEvemtinfo> {
                 height: 5,
               ),
               TextField(
-                controller: _hostnumber,
+                controller: hostnumber,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -205,8 +205,11 @@ class _EditEventinfo extends State<EditEvemtinfo> {
                   contentPadding: const EdgeInsets.all(10),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Host Phone Number :',
+                  hintText: 'Phone Number : 07********',
                 ),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               const SizedBox(
                 height: 20,

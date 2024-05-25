@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:number_editing_controller/number_editing_controller.dart';
 import 'package:tasheh/utils/upload.dart';
 
 class SingleEventPagesponsor extends StatefulWidget {
@@ -17,7 +18,8 @@ class _SingleEventPagesponsorState extends State<SingleEventPagesponsor> {
   DocumentSnapshot? postData1; // Nullable DocumentSnapshot
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  NumberEditingTextController eventpoints =
+      NumberEditingTextController.integer();
   // DocumentSnapshot? userData;
   // void getUserInfp() async {
   //   DocumentSnapshot querySnapshot1 = await FirebaseFirestore.instance
@@ -54,6 +56,7 @@ class _SingleEventPagesponsorState extends State<SingleEventPagesponsor> {
         await docRef.update({
           'sponsorid': userId,
           'sponsorname': postData1!['labelname'],
+          'eventpoints': eventpoints.number,
 
           // 'attendeeslistname': FieldValue.arrayUnion([userData!['full name']])
         });
@@ -275,6 +278,21 @@ class _SingleEventPagesponsorState extends State<SingleEventPagesponsor> {
                               fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.center),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                          controller: eventpoints,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            contentPadding: const EdgeInsets.all(10),
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Enter Points Earned : ',
+                          ),
+                        ),
                         const SizedBox(
                           height: 10,
                         ),

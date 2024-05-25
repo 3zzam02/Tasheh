@@ -21,15 +21,6 @@ DocumentSnapshot postData1 = postData1;
 
 class _SingleEventPageState extends State<SingleEventPage1> {
   // Nullable DocumentSnapshot
-  void getUserInf() async {
-    DocumentSnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
-    setState(() {
-      postData1 = querySnapshot;
-    });
-  }
 
   // Future<void> addhostinfo() async {
   //   await FirebaseFirestore.instance
@@ -54,14 +45,22 @@ class _SingleEventPageState extends State<SingleEventPage1> {
     // Batch write to perform multiple updates in a single request
 
     for (String userId in postData!['attendeeslistid']) {
+      DocumentSnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+      setState(() {
+        postData1 = querySnapshot;
+      });
+
       // Reference to the user document
 
-      FirebaseFirestore.instance.collection('users').doc(userId).get();
-
+      num currentbalance = postData1['balance'];
+      currentbalance += eventPoints;
       FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
-          .update({'balance': eventPoints});
+          .update({'balance': currentbalance});
       {
         setState(() {});
       }
@@ -87,13 +86,15 @@ class _SingleEventPageState extends State<SingleEventPage1> {
   }
 
   finishevent() async {
-    updateUsersBalance;
     bool finsihed = true;
     showSnackBar('Event Finished', context);
     await FirebaseFirestore.instance
         .collection('posts')
         .doc(widget.postId)
         .update({'isfinished': finsihed});
+    List<String> List1 =
+        List<String>.from(postData!['attendeeslistid'] as List);
+    updateUsersBalance(List1);
     // updateUsersBalance;
     setState(() {});
   }
@@ -392,9 +393,9 @@ class _SingleEventPageState extends State<SingleEventPage1> {
                                       fontSize: 15,
                                       color: Colors.black)),
                             ),
-                            // const SizedBox(
-                            //   width: 10,
-                            // ),
+                            const SizedBox(
+                              width: 10,
+                            ),
                             // OutlinedButton(
                             //   onPressed: addhostinfo,
                             //   child: const Text('Add Info',
